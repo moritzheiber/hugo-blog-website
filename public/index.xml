@@ -28,6 +28,7 @@
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.i3wm.org&#34;&gt;i3wm&lt;/a&gt;: Exceptionally simple and versatile &lt;a href=&#34;http://en.wikipedia.org/wiki/Tiling_window_manager&#34;&gt;tiling window manager&lt;/a&gt;. Beware: Once you use it every other way of interacting with a graphical user interfaces will seem inferior.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://vim.org&#34;&gt;vim&lt;/a&gt;: &lt;em&gt;The&lt;/em&gt; texteditor for pretty much anything. I might put up my &lt;code&gt;vimrc&lt;/code&gt; at some point in time.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/swanson/stringer&#34;&gt;stringer&lt;/a&gt;: Extremely easy to set up (literally takes you 10 minutes to get it running with Heroku. At no cost.) Rails rss feed aggregator. Has a beautiful web interface and implements the &lt;a href=&#34;http://feedafever.com&#34;&gt;Fever&lt;/a&gt; API specifications (for using &lt;a href=&#34;http://reederapp.com&#34;&gt;Reeder&lt;/a&gt; or &lt;a href=&#34;http://twentyfivesquares.com/press/&#34;&gt;Press&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
 </description>
