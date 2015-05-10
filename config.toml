@@ -1,0 +1,15 @@
+baseurl = "http://heiber.im"
+languageCode = "en-us"
+title = "musings about silly things"
+
+[author]
+  name = "Moritz Heiber"
+  email = "hello@heiber.im"
+  github = "moritzheiber"
+  twitter = "moritzheiber"
+
+[params]
+  tagline = "#ruby #rust #go #chef #devops #diversity"
+  github = "https://github.com/moritzheiber"
+  twitter = "https://twitter.com/moritzheiber"
+  gravatarHash = "d490fa92eebb2f8a3dd7bb39cca4b632"
