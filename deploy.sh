@@ -27,7 +27,7 @@ git add --all
 git diff --staged --stat
 
 while true; do
-    read -p "Do you wish to push these changes?" yn
+    read -p "Do you wish to push these changes? " yn
     case $yn in
         [Yy]* ) push_git; break;;
         [Nn]* ) exit;;
