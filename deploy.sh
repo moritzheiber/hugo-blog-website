@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GIT_URL="git@github.com:moritzheiber/moritzheiber.github.io.git"
-GIT_BRANCH="gh-pages"
+GIT_BRANCH="master"
 
 echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
@@ -16,7 +16,7 @@ push_git () {
 
   # Push source and build repos.
   git push origin master
-  git subtree push --prefix=public ${GIT_URL} ${GIT_BRANCH}
+  git subtree push -f --prefix public ${GIT_URL} ${GIT_BRANCH}
 }
 
 # Build the project. 
