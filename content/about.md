@@ -6,7 +6,7 @@ menu = "main"
 
 +++
 
-![Gravatar](http://gravatar.com/avatar/df1b2052b604ebff52bbd10060199952) I'm Moritz Heiber and I'm the VP of Engineering of [ZenGuard](https://zenmate.com). I also work as an independent consultant on all things computer and Internet. I used to work at [Babbel.com](http://www.babbel.com) as their DevOps & Infrastructure Lead.
+![Gravatar](http://gravatar.com/avatar/df1b2052b604ebff52bbd10060199952) I'm Moritz Heiber and I'm the VP of Engineering at [ZenGuard](https://zenmate.com). I also work as an independent consultant on all things computer and Internet. I used to work at [Babbel.com](http://www.babbel.com) as their DevOps & Infrastructure Lead.
 
 I love [Ruby](http://www.ruby-lang.org), [Rust](http://www.rust-lang.org), [Go](https://golang.org), [Chef](http://getchef.com), [CoreOS](https://coreos.com), [Docker](https://docker.com), [Linux](http://linux.org) and all the things that come with them. I usually wrap my head around politics as well and I'm actively involved in promoting open source, diversity and the spirit behind them.
 
