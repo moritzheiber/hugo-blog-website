@@ -3,6 +3,9 @@ languageCode = "en-us"
 title = "musings about silly things"
 canonifyurls = true
 
+editor = "vim"
+theme = "hyde-x"
+
 [author]
   name = "Moritz Heiber"
   email = "hello@heiber.im"
@@ -14,3 +17,4 @@ canonifyurls = true
   github = "https://github.com/moritzheiber"
   twitter = "https://twitter.com/moritzheiber"
   gravatarHash = "d490fa92eebb2f8a3dd7bb39cca4b632"
+  highlight = "monokai_sublime"

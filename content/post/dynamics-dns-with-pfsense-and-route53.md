@@ -3,6 +3,8 @@ date = "2014-02-28T12:17:36+01:00"
 draft = false
 title = "Dynamics DNS with pfSense and Route53"
 description = "[pfSense](https://pfsense.org), a FreeBSD based PHP routing framework, supports dynamic DNS (\"DynDNS\") using [AWS](https://aws.amazon.com) by default, and it's very easy to configure and a viable alternative to proprietary services and their clients."
+categories = ["pfsense", "aws"]
+keywords = ["aws", "dns", "route53", "pfsense"]
 
 +++
 
