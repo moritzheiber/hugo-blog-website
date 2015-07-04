@@ -16,7 +16,7 @@ push_git () {
 
   # Push source and build repos.
   git push origin master
-  git subtree push -f --prefix public ${GIT_URL} ${GIT_BRANCH}
+  git subtree push --prefix public ${GIT_URL} ${GIT_BRANCH}
 }
 
 # Build the project. 
