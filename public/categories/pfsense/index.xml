@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pfsense on musings about silly things</title>
+    <link>http://heiber.im/categories/pfsense/</link>
+    <description>Recent content in Pfsense on musings about silly things</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>hello@heiber.im (Moritz Heiber)</managingEditor>
+    <webMaster>hello@heiber.im (Moritz Heiber)</webMaster>
+    <lastBuildDate>Fri, 28 Feb 2014 12:17:36 +0100</lastBuildDate>
+    <atom:link href="http://heiber.im/categories/pfsense/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Dynamics DNS with pfSense and Route53</title>
+      <link>http://heiber.im/post/dynamics-dns-with-pfsense-and-route53/</link>
+      <pubDate>Fri, 28 Feb 2014 12:17:36 +0100</pubDate>
+      <author>hello@heiber.im (Moritz Heiber)</author>
+      <guid>http://heiber.im/post/dynamics-dns-with-pfsense-and-route53/</guid>
+      <description>&lt;p&gt;The quite excellent &lt;a href=&#34;https://pfsense.org&#34;&gt;pfSense&lt;/a&gt; comes with a &lt;a href=&#34;http://en.wikipedia.org/wiki/Dynamic_DNS&#34;&gt;dynamic DNS&lt;/a&gt; plugin for &lt;a href=&#34;http://aws.amazon.com/route53/&#34;&gt;Amazon&amp;rsquo;s Route53 DNS management service&lt;/a&gt;. However, there is little to no documentation provided on how to set it up properly and especially about setting up the &lt;a href=&#34;http://aws.amazon.com/iam/&#34;&gt;relevant IAM access policies&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So I went to the &lt;a href=&#34;https://github.com/pfsense/&#34;&gt;pfSense repository on GitHub&lt;/a&gt; and browsed the code in order to find out how much access the plugin needed in order to do its deed.&lt;/p&gt;
+
+&lt;p&gt;As it turns out: not much. The following IAM policy will grant the plugin the required permissions to access Route53 on your behalf:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;Statement&amp;quot;:[
+    {
+      &amp;quot;Effect&amp;quot;:&amp;quot;Allow&amp;quot;,
+      &amp;quot;Action&amp;quot;:[
+        &amp;quot;route53:ChangeResourceRecordSets&amp;quot;,
+        &amp;quot;route53:ListResourceRecordSets&amp;quot;
+      ],
+     &amp;quot;Resource&amp;quot;:&amp;quot;arn:aws:route53:::hostedzone/&amp;lt;your-hosted-zone-id&amp;gt;&amp;quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice the &lt;code&gt;&amp;lt;your-hosted-zone-id&amp;gt;&lt;/code&gt; which you need to exchange for the ID your zone has been assigned to within Route53.&lt;/p&gt;
+
+&lt;p&gt;What the dynamics DNS module within pfSense actually does:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Connect to the AWS API and look up all the records within the zone you configured&lt;/li&gt;
+&lt;li&gt;Determines whether there is a record by the name you entered
+
+&lt;ul&gt;
+&lt;li&gt;If there is it deletes the record and adds it back with the new IP address attached to it.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Note: This is also why it is very wise to chose a very low (&amp;lt;= 60 seconds) TTL for your dynamic DNS record&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;If there isn&amp;rsquo;t it creates a new record and attaches the IP address to it&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Saves the IP address it just set within Route53 to a file within the pfSense environment to make sure it doesn&amp;rsquo;t update the same record twice
+
+&lt;ul&gt;
+&lt;li&gt;The IP either gets updated when the locally recorded IP address doesn&amp;rsquo;t match the record on Route53 or every 25 days&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After that the A record should get updated automatically each time the IP changes on the associated interface.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

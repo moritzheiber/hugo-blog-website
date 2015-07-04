@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Switching to Hugo &middot; Moritz Heiber</title>
+
+  
+  <link rel="stylesheet" href="http://heiber.im//css/poole.css">
+  <link rel="stylesheet" href="http://heiber.im//css/hyde.css">
+  <link rel="stylesheet" href="http://heiber.im//css/poole-overrides.css">
+  <link rel="stylesheet" href="http://heiber.im//css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://heiber.im//css/hyde-x.css">
+  <link rel="stylesheet" href="http://heiber.im//css/highlight/monokai_sublime.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://heiber.im/apple-touch-icon-144-precomposed.png">
+  <link href="http://heiber.im/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="After redoing my website using Jekyll last year I was once again faced with a decision regarding my personal space on the web. Writing new blog articles was more about fighting with the framework than focussing on the content. I set out to change that by switching from Jekyll to [Hugo](http://gohugo.io).">
+  <meta name="keywords" content="blog,hugo,gohugo,golang,go">
+  
+</head>
+<body>
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <img src="http://www.gravatar.com/avatar/d490fa92eebb2f8a3dd7bb39cca4b632?s=200" alt="gravatar">
+      <h1>Moritz Heiber</h1>
+      <p class="lead"><p>#ruby #rust #go #chef #devops #diversity</p>
+</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://heiber.im/">Home</a></li>
+      
+      <li class="sidebar-nav-item"><a href="http://heiber.im/about">About me</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/moritzheiber"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      
+      
+      <a href="https://twitter.com/moritzheiber"><i class="fa fa-twitter-square fa-3x"></i></a>
+      </li>
+    </ul>
+
+    <p>Copyright &copy; 2014 - 2015<br />
+    <a href="http://creativecommons.org/licenses/by/4.0/legalcode">Licensed under CC-by-4.0</a><br/>
+    
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1>Switching to Hugo</h1>
+    <span class="post-date">May 10, 2015 &middot; 6 minute read
+    
+    <br/>
+    
+    <a class="label" href="http://heiber.im//categories/blog">blog</a><a class="label" href="http://heiber.im//categories/golang">golang</a>
+    </span>
+    
+
+<p><a href="http://gohugo.io">Hugo</a> is a static site generator written in <a href="http://golang.org">Go</a>. It&rsquo;s incredibly fast and flexible, has a unique template engine, and writing themes is really easy, should the slew of available themes not be to your liking. I decided to use it because it lets me get rid of all the dependencies <a href="http://jekyllrb.com/">Jekyll</a> came with, it had a comprehensive preview mechanism (<code>hugo server</code>) and it allowed for a very narrow deployment pipeline to <a href="http://pages.github.com">GitHub Pages</a>, where this site is hosted at. Coincidentally, this is also why it doesn&rsquo;t offer TLS supports.</p>
+
+<p>So without further ado, here are some instructions on how to get a Hugo site of your own, hosted on GitHub, for free!</p>
+
+<h2 id="installing-hugo:536c0d2c3e7d958cd4c405a28a07ba8a">Installing Hugo</h2>
+
+<p>Since Hugo is written in Go downloading and installing it can be as easy as pulling the individual binary and shoving it into the right place in your <code>$PATH</code>. Just go to their <a href="https://github.com/spf13/hugo/releases">release website</a> and take your pick. I used the <code>_amd64.deb</code> since I&rsquo;m running Ubuntu:</p>
+
+<pre><code class="language-bash">$ wget https://github.com/spf13/hugo/releases/download/v0.13/hugo_0.13_amd64.deb
+$ dpkg -i hugo_0.13_amd64.deb
+</code></pre>
+
+<p>This will install <code>hugo</code> to <code>/usr/bin</code>:</p>
+
+<pre><code class="language-bash">$ dpkg -L hugo
+/usr/bin/hugo
+</code></pre>
+
+<p>Obviously, you can also pull down the sources (via git or by downloading the zip file) and compile your own binary. <a href="http://gohugo.io/overview/installing#installing-from-source">There are detailed instructions on Hugo&rsquo;s website</a>.</p>
+
+<h2 id="creating-your-new-hugo-site:536c0d2c3e7d958cd4c405a28a07ba8a">Creating your new Hugo site</h2>
+
+<p>To set up the Hugo scaffolding for your new site all you need to run is:</p>
+
+<pre><code class="language-bash">$ hugo new site &lt;path&gt;
+</code></pre>
+
+<p>Now your directory in <code>&lt;path&gt;</code> should look something like this:</p>
+
+<pre><code class="language-bash">$ ls
+archetypes  config.toml  content  data  layouts  static
+</code></pre>
+
+<p>Hugo uses <code>toml</code> as its configuration syntax by default. However, you can also use <code>yaml</code> or <code>json</code> if you prefer either of those. The few directories carry a certain significance since taxonomy in Hugo is based on its directory structure:</p>
+
+<ul>
+<li><a href="http://gohugo.io/content/archetypes/">archetypes</a>: This contains the default definitions for new content. You can add things like <code>tags</code> or <code>categories</code> here.</li>
+<li><a href="http://gohugo.io/content/organization/">content</a>: Here is where all your content goes. This means regular pages or, nested in directories, posts, categories etc.</li>
+<li><a href="http://gohugo.io/extras/datafiles/">data</a>: You can store a poor man&rsquo;s database in here and reference it right in your templates and pages.</li>
+<li><a href="http://gohugo.io/templates/overview/">layouts</a>: Relevant site layouts can be found in here. Usually, those would be provided by themes you&rsquo;re using.</li>
+<li><code>static</code>: Any content you don&rsquo;t need to have touched by Hugo but want to use on your website goes in here.</li>
+</ul>
+
+<p>Now, the <code>config.toml</code> is where you main site configuration is stored. For my site it looks like this:</p>
+
+<pre><code class="language-toml"># Your website URL
+baseurl = &quot;http://heiber.im&quot;  
+# The language you're using on it
+languageCode = &quot;en-us&quot;  
+# The main title of your website
+title = &quot;musings about silly things&quot;  
+# This should be here if you plan on using GitHub Pages
+canonifyurls = true
+# This is the editor Hugo calls upon when you run &quot;hugo new post/something.md&quot;
+editor = &quot;vim&quot; 
+# [...]
+</code></pre>
+
+<p>You can take a look at the current file <a href="https://github.com/moritzheiber/huge-blog-website/blob/master/config.toml">on GitHub</a>. There are also a lot of theme dependent variables in there, which you can use pretty much anywhere in your layouts, theme definitions and content. <a href="http://gohugo.io/templates/variables/">There&rsquo;s a whole section on template variables in the docs</a>.</p>
+
+<h2 id="grab-a-theme-you-like:536c0d2c3e7d958cd4c405a28a07ba8a">Grab a theme you like</h2>
+
+<p>There is a <a href="https://github.com/spf13/hugoThemes">separate repository containing a lot of diverse and different themes</a>. As of this moment there isn&rsquo;t a comprehensive overview of the available themes accessible yet, however, there&rsquo;s <a href="https://github.com/spf13/hugoThemes/issues/35">a ticket in GitHub which you can follow</a> about finally getting a site up and running for exactly that purpose.</p>
+
+<p>There are two ways of still giving them a try/taking a peek:</p>
+
+<ol>
+<li>Each theme should contain a screenshot of it&rsquo;s whole glory in the <code>images/</code> directory. If it doesn&rsquo;t consider filing an issue.</li>
+<li>You can use the instructions mentioned in the <code>README.md</code> to clone all of the available themes in the repository and then run <code>hugo server -t &lt;theme-name&gt;</code> in order to try out each theme with your newly created blog</li>
+</ol>
+
+<h2 id="start-creating-content:536c0d2c3e7d958cd4c405a28a07ba8a">Start creating content!</h2>
+
+<p>Now just run <code>hugo new post/new-first-post.md</code> and have at it! If you want to see your changes appear incrementally you can run <code>hugo -w</code> (<code>-w</code> for &ldquo;watch for changes&rdquo;) in another window and navigate to <a href="http://localhost:1313">http://localhost:1313</a>.</p>
+
+<p>Especially with complicated markdown formatting this is a huge timesaver.</p>
+
+<h2 id="push-it-to-the-web:536c0d2c3e7d958cd4c405a28a07ba8a">Push it to the web</h2>
+
+<p>After you&rsquo;re done just run <code>hugo</code> once in the blog&rsquo;s directory. Mind your theme choice; you can use <code>-t &lt;theme-name&gt;</code> if you haven&rsquo;t added it to the configuration.</p>
+
+<p>Your statically created site is now ready for consumption in <code>public/</code>. You can upload it anywhere you so desire. I personally host my website on GitHub Pages. There&rsquo;s <a href="http://gohugo.io/tutorials/github-pages-blog/">a chapter on it in the Hugo docs</a>. Just make sure to use the right method of branching/pushing, i.e. personal websites do not use a <code>gh-pages</code> branch but rather <code>master</code> directly.</p>
+
+<p>I&rsquo;ve created a <code>deploy.sh</code> script which alleviates some of pain in the repetitive tasks you need to repeat in order to get your site onto GitHub Pages:</p>
+
+<pre><code class="language-bash">#!/bin/bash
+
+GIT_URL=&quot;git@github.com:moritzheiber/moritzheiber.github.io.git&quot;
+GIT_BRANCH=&quot;master&quot;
+
+echo -e &quot;\033[0;32mDeploying updates to GitHub...\033[0m&quot;
+
+push_git () {
+  msg=&quot;Rebuilding site `date`&quot;
+  if [ $# -eq 1 ] ; then 
+    msg=&quot;$1&quot;
+  fi
+  
+  # Commit changes.
+  git commit -m &quot;$msg&quot;
+
+  # Push source and build repos.
+  git push origin master
+  git subtree push --prefix public ${GIT_URL} ${GIT_BRANCH}
+}
+
+# Build the project. 
+hugo -t hyde-x
+
+# Add changes to git.
+git add --all
+git diff --staged --stat
+
+while true; do
+    read -p &quot;Do you wish to push these changes? &quot; yn
+    case $yn in
+        [Yy]* ) push_git; break;;
+        [Nn]* ) exit;;
+        * ) echo &quot;Please answer yes or no.&quot;;;
+    esac
+done
+</code></pre>
+
+<p>The script:</p>
+
+<ol>
+<li>Builds the current state of the site using <code>hugo</code>.</li>
+<li>Adds all the changes to the git index and stages them.</li>
+<li>Gives you a brief overview of what they actually are.</li>
+<li>Asks you to accept these changes.</li>
+<li>Commits the changes, either using a provided messages (i.e. <code>./deploy.sh &quot;your message here&quot;</code>) or a timestamped default.</li>
+<li>Pushes the changes to the main repository, also holding the <code>hugo</code> codebase.</li>
+<li>Pushes just the content in <code>public/</code> to a separate repository, using the <code>master</code> branch, so that it gets picked up by GitHub Pages.</li>
+</ol>
+
+<p>That&rsquo;s it. Your changes are now online.</p>
+
+<h2 id="troubleshooting:536c0d2c3e7d958cd4c405a28a07ba8a">Troubleshooting</h2>
+
+<p>If you see a go backtrace at any point in time and you don&rsquo;t happen to have any content in your blog yet it could be you&rsquo;ve chosen a theme that relies on content to build certain parts of the site i.e. certain variables and/or content snippets. You should be fine once you&rsquo;ve created more than or equal to one post/page.</p>
+
+<h2 id="further-reading:536c0d2c3e7d958cd4c405a28a07ba8a">Further reading</h2>
+
+<p>Hugo is very well documented, literally anything you desire can either by found <a href="http://gohugo.io/overview/introduction/">in the docs</a> or on <a href="http://discuss.gohugo.io/">their buzzing forums</a>.</p>
+
+<h2 id="conclusion:536c0d2c3e7d958cd4c405a28a07ba8a">Conclusion</h2>
+
+<p>I couldn&rsquo;t be happier with the setup at the moment. Right now, creating new posts is just about running <code>hugo new post/&lt;post&gt;.md</code>, adding my content and then <code>./deploy.sh</code>. After that it&rsquo;s online. Two simple steps.</p>
+
+<p>It&rsquo;s much easier and more seamless as it was before. I&rsquo;m sorry to be moving away from such an accomplished project as Jekyll, but maintaining Jekyll and it&rsquo;s dependencies just isn&rsquo;t what I&rsquo;m after and <a href="http://www.octopress.org">Octopress 3.0</a> isn&rsquo;t ready yet.</p>
+
+<p>For the time being, here&rsquo;s to a bright future using <a href="http://gohugo.io">Hugo</a>!</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="http://heiber.im//js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
