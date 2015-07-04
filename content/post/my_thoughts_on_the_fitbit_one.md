@@ -9,7 +9,7 @@ description = "I recently went to Amazon and bought two of the most popular acti
 
 Like pretty much anyone interested in technology I was curious from the very beginning what body or fitness trackers can provide of value to our every day lives at this point in time. The ability to accurately judge your level of fitness and what to do about staying healthy is something I'd truly appreciate. I've been struggling with my body weight since I was a small child and still struggling with staying healthy, positive and depression free to this very date.
 
-The next chapter recounts my experience using the Fitbit One for three weeks. And while I also purchased a Jawbone UP2, I won't give an account of its performance here since it didn't do any better than the One, in fact, it didn't considerably worse in most categories.
+The next chapter recounts my experience using the Fitbit One for three weeks. And while I also purchased a Jawbone UP2, I won't give an account of its performance here since it didn't do any better than the One, in fact, it performed considerably worse in most categories.
 
 # Fitbit One
 
