@@ -242,10 +242,33 @@ done
       <guid>http://heiber.im/about/</guid>
       <description>
 
-&lt;p&gt;&lt;img src=&#34;http://gravatar.com/avatar/df1b2052b604ebff52bbd10060199952&#34; alt=&#34;Gravatar&#34; /&gt;
- I&amp;rsquo;m Moritz Heiber and I&amp;rsquo;m the VP of Engineering at &lt;a href=&#34;https://zenmate.com&#34;&gt;ZenGuard&lt;/a&gt;. I also work as an independent consultant on all things computer and Internet. I used to work at &lt;a href=&#34;http://www.babbel.com&#34;&gt;Babbel.com&lt;/a&gt; as their DevOps &amp;amp; Infrastructure Lead.&lt;/p&gt;
+&lt;p&gt;
+&lt;figure class=&#34;about&#34;&gt;
+    
+        &lt;img src=&#34;http://heiber.im/images/moritz2.jpg&#34; /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h4&gt;Copyright 2015, Martin Fowler&lt;/h4&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
 
-&lt;p&gt;I love &lt;a href=&#34;http://www.ruby-lang.org&#34;&gt;Ruby&lt;/a&gt;, &lt;a href=&#34;http://www.rust-lang.org&#34;&gt;Rust&lt;/a&gt;, &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;, &lt;a href=&#34;http://getchef.com&#34;&gt;Chef&lt;/a&gt;, &lt;a href=&#34;https://coreos.com&#34;&gt;CoreOS&lt;/a&gt;, &lt;a href=&#34;https://docker.com&#34;&gt;Docker&lt;/a&gt;, &lt;a href=&#34;http://linux.org&#34;&gt;Linux&lt;/a&gt; and all the things that come with them. I usually wrap my head around politics as well and I&amp;rsquo;m actively involved in promoting open source, diversity and the spirit behind them.&lt;/p&gt;
+I&amp;rsquo;m Moritz Heiber and I work as DevOps Birth Assistant at &lt;a href=&#34;https://www.thoughtworks.com&#34;&gt;ThoughtWorks&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I used to work at ZenGuard as their VP of Engineering and at &lt;a href=&#34;http://www.babbel.com&#34;&gt;Babbel&lt;/a&gt; as their DevOps &amp;amp; Infrastructure Lead.&lt;/p&gt;
+
+&lt;p&gt;I also work as an independent consultant on all things computers and Internet.&lt;/p&gt;
+
+&lt;p&gt;I love &lt;a href=&#34;http://www.ruby-lang.org&#34;&gt;Ruby&lt;/a&gt;, &lt;a href=&#34;http://www.rust-lang.org&#34;&gt;Rust&lt;/a&gt;, &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;, &lt;a href=&#34;http://linux.org&#34;&gt;Linux&lt;/a&gt; and all the things that come with them. I usually wrap my head around politics as well and I&amp;rsquo;m actively involved in promoting open source, diversity and the spirit behind them.&lt;/p&gt;
+
+&lt;p&gt;I like to give talks on DevOps, system operations and shiny things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/moritzheiber/i-dont-care-for-what-you-did-last-summer&#34;&gt;I don&amp;rsquo;t care what you did last summer - Continuous Delivery and Immutable Servers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/moritzheiber/codetalks-2014-fluentd-presentation&#34;&gt;Log the things! (German)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&#34;stuff-i-use:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Stuff I use&lt;/h2&gt;
 

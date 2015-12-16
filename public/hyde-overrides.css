@@ -14,17 +14,3 @@
   list-style: none;
   margin-bottom: 1rem;
 }
-
-figure.about {
-  /* margin: 0; */
-  float:left;
-}
-
-.about img {
-  max-width:200px;
-}
-
-.about h4 {
-  font-size: x-small;
-  font-weight: normal;
-}

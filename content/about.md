@@ -6,9 +6,20 @@ menu = "main"
 
 +++
 
-![Gravatar](http://gravatar.com/avatar/df1b2052b604ebff52bbd10060199952) I'm Moritz Heiber and I'm the VP of Engineering at [ZenGuard](https://zenmate.com). I also work as an independent consultant on all things computer and Internet. I used to work at [Babbel.com](http://www.babbel.com) as their DevOps & Infrastructure Lead.
 
-I love [Ruby](http://www.ruby-lang.org), [Rust](http://www.rust-lang.org), [Go](https://golang.org), [Chef](http://getchef.com), [CoreOS](https://coreos.com), [Docker](https://docker.com), [Linux](http://linux.org) and all the things that come with them. I usually wrap my head around politics as well and I'm actively involved in promoting open source, diversity and the spirit behind them.
+{{<figure src="/images/moritz2.jpg" title="Copyright 2015, Martin Fowler" class="about">}}
+I'm Moritz Heiber and I work as DevOps Birth Assistant at [ThoughtWorks](https://www.thoughtworks.com).
+
+I used to work at ZenGuard as their VP of Engineering and at [Babbel](http://www.babbel.com) as their DevOps & Infrastructure Lead.
+
+I also work as an independent consultant on all things computers and Internet.
+
+I love [Ruby](http://www.ruby-lang.org), [Rust](http://www.rust-lang.org), [Go](https://golang.org), [Linux](http://linux.org) and all the things that come with them. I usually wrap my head around politics as well and I'm actively involved in promoting open source, diversity and the spirit behind them.
+
+I like to give talks on DevOps, system operations and shiny things:
+
+* [I don't care what you did last summer - Continuous Delivery and Immutable Servers](https://github.com/moritzheiber/i-dont-care-for-what-you-did-last-summer)
+* [Log the things! (German)](https://github.com/moritzheiber/codetalks-2014-fluentd-presentation)
 
 ## Stuff I use
 

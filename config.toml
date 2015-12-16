@@ -13,7 +13,7 @@ theme = "hyde-x"
   twitter = "moritzheiber"
 
 [params]
-  tagline = "#ruby #rust #go #chef #devops #diversity"
+  tagline = "#ruby #rust #go #devops #diversity"
   github = "https://github.com/moritzheiber"
   twitter = "https://twitter.com/moritzheiber"
   gravatarHash = "d490fa92eebb2f8a3dd7bb39cca4b632"
