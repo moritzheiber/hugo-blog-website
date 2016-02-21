@@ -8,8 +8,17 @@
     <language>en-us</language>
     <managingEditor>hello@heiber.im (Moritz Heiber)</managingEditor>
     <webMaster>hello@heiber.im (Moritz Heiber)</webMaster>
-    <lastBuildDate>Fri, 28 Feb 2014 12:17:36 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 21 Feb 2016 16:21:11 +0100</lastBuildDate>
     <atom:link href="http://heiber.im/categories/aws/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Building a Kinesis-enabled heka package</title>
+      <link>http://heiber.im/post/building-docker-heka/</link>
+      <pubDate>Sun, 21 Feb 2016 16:21:11 +0100</pubDate>
+      <author>hello@heiber.im (Moritz Heiber)</author>
+      <guid>http://heiber.im/post/building-docker-heka/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Dynamics DNS with pfSense and Route53</title>
