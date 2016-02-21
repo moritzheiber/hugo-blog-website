@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Fitbit on musings about silly things</title>
-    <link>http://heiber.im/categories/fitbit/</link>
+    <link>http://localhost:1313/categories/fitbit/</link>
     <description>Recent content in Fitbit on musings about silly things</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>hello@heiber.im (Moritz Heiber)</managingEditor>
     <webMaster>hello@heiber.im (Moritz Heiber)</webMaster>
     <lastBuildDate>Thu, 11 Jun 2015 07:55:54 +0200</lastBuildDate>
-    <atom:link href="http://heiber.im/categories/fitbit/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/fitbit/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>My thoughts on the Fitbit One</title>
-      <link>http://heiber.im/post/my_thoughts_on_the_fitbit_one/</link>
+      <link>http://localhost:1313/post/my_thoughts_on_the_fitbit_one/</link>
       <pubDate>Thu, 11 Jun 2015 07:55:54 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/post/my_thoughts_on_the_fitbit_one/</guid>
+      <guid>http://localhost:1313/post/my_thoughts_on_the_fitbit_one/</guid>
       <description>
 
 &lt;p&gt;Like pretty much anyone interested in technology I was curious from the very beginning what body or fitness trackers can provide of value to our every day lives at this point in time. The ability to accurately judge your level of fitness and what to do about staying healthy is something I&amp;rsquo;d truly appreciate. I&amp;rsquo;ve been struggling with my body weight since I was a small child and still struggling with staying healthy, positive and depression free to this very date.&lt;/p&gt;

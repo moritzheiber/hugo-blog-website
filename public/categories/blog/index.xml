@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blog on musings about silly things</title>
-    <link>http://heiber.im/categories/blog/</link>
+    <link>http://localhost:1313/categories/blog/</link>
     <description>Recent content in Blog on musings about silly things</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>hello@heiber.im (Moritz Heiber)</managingEditor>
     <webMaster>hello@heiber.im (Moritz Heiber)</webMaster>
     <lastBuildDate>Sun, 10 May 2015 20:12:10 +0200</lastBuildDate>
-    <atom:link href="http://heiber.im/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/blog/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Switching to Hugo</title>
-      <link>http://heiber.im/post/switching-to-hugo/</link>
+      <link>http://localhost:1313/post/switching-to-hugo/</link>
       <pubDate>Sun, 10 May 2015 20:12:10 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/post/switching-to-hugo/</guid>
+      <guid>http://localhost:1313/post/switching-to-hugo/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://gohugo.io&#34;&gt;Hugo&lt;/a&gt; is a static site generator written in &lt;a href=&#34;http://golang.org&#34;&gt;Go&lt;/a&gt;. It&amp;rsquo;s incredibly fast and flexible, has a unique template engine, and writing themes is really easy, should the slew of available themes not be to your liking. I decided to use it because it lets me get rid of all the dependencies &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt; came with, it had a comprehensive preview mechanism (&lt;code&gt;hugo server&lt;/code&gt;) and it allowed for a very narrow deployment pipeline to &lt;a href=&#34;http://pages.github.com&#34;&gt;GitHub Pages&lt;/a&gt;, where this site is hosted at. Coincidentally, this is also why it doesn&amp;rsquo;t offer TLS supports.&lt;/p&gt;
