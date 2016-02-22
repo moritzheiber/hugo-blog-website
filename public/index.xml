@@ -2,109 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>musings about silly things</title>
-    <link>http://localhost:1313/</link>
+    <link>http://heiber.im/</link>
     <description>Recent content on musings about silly things</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>hello@heiber.im (Moritz Heiber)</managingEditor>
     <webMaster>hello@heiber.im (Moritz Heiber)</webMaster>
-    <lastBuildDate>Sun, 21 Feb 2016 16:21:11 +0100</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Building a Kinesis-enabled heka package for logging on AWS</title>
-      <link>http://localhost:1313/post/building-docker-heka/</link>
-      <pubDate>Sun, 21 Feb 2016 16:21:11 +0100</pubDate>
-      <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://localhost:1313/post/building-docker-heka/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/mozilla-services/heka&#34;&gt;Heka&lt;/a&gt; is an excellent logging and processing framework made by none other than &lt;a href=&#34;https://mozilla.org&#34;&gt;Mozilla&lt;/a&gt;, the creators of &lt;a href=&#34;https://getfirefox.com&#34;&gt;Firefox&lt;/a&gt;. There are other frameworks like &lt;a href=&#34;https://www.elastic.co/products/logstash&#34;&gt;logstash&lt;/a&gt;, &lt;a href=&#34;https://fluentd.org&#34;&gt;fluentd&lt;/a&gt;, or proprietary solutions like &lt;a href=&#34;https://loggly.com&#34;&gt;Loggly&lt;/a&gt; or &lt;a href=&#34;https://www.splunk.com&#34;&gt;Splunk&lt;/a&gt;. But none of them combine the flexibility of heka, through its included &lt;a href=&#34;https://www.lua.org&#34;&gt;Lua&lt;/a&gt; scripting engine, and the scalability, through its modular engine based on &lt;a href=&#34;https://golang.org&#34;&gt;Golang&lt;/a&gt;, with the extensibility through its &lt;a href=&#34;http://hekad.readthedocs.org/en/latest/developing/plugin.html&#34;&gt;plugin ecosystem&lt;/a&gt; and versatile processing workflow engine.&lt;/p&gt;
-
-&lt;p&gt;If you were starting fresh I would probably recommend fluentd. It&amp;rsquo;s easy to get started with (it literally takes a couple of seconds to write an appropriate &lt;code&gt;Gemfile&lt;/code&gt;), it has a powerful processing pipeline of its own and a vast plugin ecosystem. It even comes with built-in high availability. It lets you take on your task with data driven discussions quickly and easily.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately its very core, Ruby, is also its biggest disadvantage. When you&amp;rsquo;re talking about a couple of 100 of megabytes a day, fluentd will get you there no problems. But once you&amp;rsquo;re hitting a couple of 100 of gigabytes of logging and metric data a day it&amp;rsquo;s going to falter sooner or later, especially if you&amp;rsquo;re doing pre- and post-processing in the same pipeline.&lt;/p&gt;
-
-&lt;p&gt;This is where heka comes in.&lt;/p&gt;
-
-&lt;p&gt;Heka is written in Golang, making it a very small, portable package. With the available plugins, and its extensibility for processing and filtering offered by the internal Lua parser engine, it&amp;rsquo;s perfectly capable of scaling to pretty much any workload you throw at it.&lt;/p&gt;
-
-&lt;h2 id=&#34;streaming-logs-with-heka-and-kinesis:06f5b5f8600296dbbb62f5839e459228&#34;&gt;Streaming logs with heka and Kinesis&lt;/h2&gt;
-
-&lt;p&gt;A traditional setup with a logging daemon running somewhere would mean aggregating logs, either by tailing local files, or accepting messages on a socket or port in a structured format such as JSON or messagepack. And that&amp;rsquo;s all right.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve been working with a lot of projects deployed to AWS lately. Decoupling the log streaming from the transport, the processing and the storage obviously makes sense. For streams you can chose either SQS or Kinesis on AWS to use readily available services. I usually go for Kinesis over SQS for &lt;a href=&#34;http://aws.amazon.com/kinesis/streams/faqs/&#34;&gt;many reasons&lt;/a&gt;, but mostly it&amp;rsquo;s the streaming part of what Kinesis has tooffer and its seamless Lambda integration that seals the deal for me. Also, since you&amp;rsquo;re essentially just paying for a stream of data and not per-record events, Kinesis tends to be a lot cheaper than SQS for large volume data transfers.&lt;/p&gt;
-
-&lt;p&gt;Also, with the addition of &lt;a href=&#34;https://aws.amazon.com/blogs/aws/amazon-kinesis-firehose-simple-highly-scalable-data-ingestion/&#34;&gt;Kinesis Firehose&lt;/a&gt; lately, processing huge amounts of already aggregated data has become even easier with Kinesis. Try doing that with SQS. Your billing department will not like it.&lt;/p&gt;
-
-&lt;h3 id=&#34;kinesis-as-an-output-for-heka:06f5b5f8600296dbbb62f5839e459228&#34;&gt;Kinesis as an output for heka&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://hekad.readthedocs.org/en/latest/config/outputs/index.html&#34;&gt;There is a sizable list of available output plugins&lt;/a&gt; for heka. Unfortunately, Kinesis isn&amp;rsquo;t one of the natively developed plugins. You will have to build it yourself.&lt;/p&gt;
-
-&lt;p&gt;Fear not though, &lt;a href=&#34;https://github.com/crewton/heka-plugins&#34;&gt;there is a solution provided by the community&lt;/a&gt;. When you are trying to use it you will probably want to use the &lt;a href=&#34;https://github.com/MattLTW/heka-plugins&#34;&gt;slightly patched-up version&lt;/a&gt; of my colleague &lt;a href=&#34;https://github.com/MattLTW&#34;&gt;Matthew Lloyd&lt;/a&gt;. It has support for the latest version of heka, 0.10.0 (and beyond).&lt;/p&gt;
-
-&lt;h2 id=&#34;building-your-own-heka-package-with-docker:06f5b5f8600296dbbb62f5839e459228&#34;&gt;Building your own heka package with Docker&lt;/h2&gt;
-
-&lt;p&gt;Docker seems like the ideal way of building a system package. It&amp;rsquo;s isolated from the overall operating system you&amp;rsquo;re building it, your build environment can be set up in an instant, over and over again, and there are no remnants left behind afterwards.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m going to use the following &lt;code&gt;Dockerfile&lt;/code&gt; for building a heka package with the Kinesis plugin enabled:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-Dockerfile&#34;&gt;FROM golang:latest
-MAINTAINER Moritz Heiber &amp;lt;hello@heiber.im&amp;gt;
-
-ARG uid
-
-RUN apt-get update &amp;amp;&amp;amp; \
-    apt-get install -y curl cmake git mercurial build-essential debhelper rpm
-
-RUN useradd --uid ${uid} -mU heka
-
-# 0.10.0
-ENV version v0.10.0
-
-RUN git clone -n https://github.com/mozilla-services/heka /tmp/heka
-WORKDIR /tmp/heka
-RUN git checkout ${version}
-
-# Add the kinesis plugin
-RUN sed -i &#39;152igit_clone\(https\:\/\/github.com\/vaughan0\/go-ini\ a98ad7ee00ec53921f08832bc06ecf7fd600e6a1\)\ngit_clone\(https\:\/\/github.com\/aws\/aws-sdk-go\ 90a21481e4509c85ee68b908c72fe4b024311447\)\nadd_dependencies\(aws-sdk-go\ go-ini\)&#39; cmake/externals.cmake
-RUN echo &amp;quot;add_external_plugin(git https://github.com/MattLTW/heka-plugins.git master kinesis)&amp;quot; &amp;gt;&amp;gt; cmake/plugin_loader.cmake
-
-ADD build-heka.sh .
-RUN chown -R heka:heka /tmp/heka
-
-VOLUME /tmp/heka-build
-
-USER heka
-CMD [&amp;quot;./build-heka.sh&amp;quot;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;step-by-step:06f5b5f8600296dbbb62f5839e459228&#34;&gt;Step by step&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-Dockerfile&#34;&gt;ARG uid
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is a build argument, only introduced to Dockerfiles recently. You specify it when you run &lt;code&gt;docker build&lt;/code&gt;. In this instance it helps us provide an image which belongs to the user running the package build. More on this later.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-Dockerfile&#34;&gt;RUN apt-get update &amp;amp;&amp;amp; \
-    apt-get install -y curl cmake git mercurial build-essential debhelper rpm
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;These are all the required packages for building heka. Since the &lt;code&gt;golang:latest&lt;/code&gt; &lt;code&gt;Dockerfile&lt;/code&gt; is based on Debian Jessie we have the &lt;code&gt;apt-get&lt;/code&gt; package manager at our disposal. Heka is using &lt;code&gt;git&lt;/code&gt; and &lt;code&gt;mercurial&lt;/code&gt; internally to manage dependencies.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-Dockerfile&#34;&gt;RUN useradd --uid ${uid} -mU go
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This adds a user with the same system id of the user running the Docker build. This is important because otherwise the package coming out of the container is going to belong to the user root, which you might be able to copy somewhere, but especially coming out of a pipeline it&amp;rsquo;s going be a tough problem to deal with.&lt;/p&gt;
-</description>
-    </item>
+    <lastBuildDate>Sun, 07 Feb 2016 14:09:05 +0100</lastBuildDate>
+    <atom:link href="http://heiber.im/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Creating a good, secure Docker base image</title>
-      <link>http://localhost:1313/post/creating-a-solid-docker-base-image/</link>
+      <link>http://heiber.im/post/creating-a-solid-docker-base-image/</link>
       <pubDate>Sun, 07 Feb 2016 14:09:05 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://localhost:1313/post/creating-a-solid-docker-base-image/</guid>
+      <guid>http://heiber.im/post/creating-a-solid-docker-base-image/</guid>
       <description>
 
 &lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;: Build small, efficient images, use &lt;a href=&#34;https://www.alpinelinux.org/&#34;&gt;Alpine Linux&lt;/a&gt; as your foundation, build from there, add glibc if necessary, remove static/generated files and documentation, never run more than one process per container and use verified, trustworthy sources.&lt;/p&gt;
@@ -617,10 +529,10 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.72-b15, mixed mode)
     
     <item>
       <title>My thoughts on the Fitbit One</title>
-      <link>http://localhost:1313/post/my_thoughts_on_the_fitbit_one/</link>
+      <link>http://heiber.im/post/my_thoughts_on_the_fitbit_one/</link>
       <pubDate>Thu, 11 Jun 2015 07:55:54 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://localhost:1313/post/my_thoughts_on_the_fitbit_one/</guid>
+      <guid>http://heiber.im/post/my_thoughts_on_the_fitbit_one/</guid>
       <description>
 
 &lt;p&gt;Like pretty much anyone interested in technology I was curious from the very beginning what body or fitness trackers can provide of value to our every day lives at this point in time. The ability to accurately judge your level of fitness and what to do about staying healthy is something I&amp;rsquo;d truly appreciate. I&amp;rsquo;ve been struggling with my body weight since I was a small child and still struggling with staying healthy, positive and depression free to this very date.&lt;/p&gt;
@@ -677,10 +589,10 @@ But the sleep tracking is also lacking in granularity severely, and it doesn&amp
     
     <item>
       <title>Switching to Hugo</title>
-      <link>http://localhost:1313/post/switching-to-hugo/</link>
+      <link>http://heiber.im/post/switching-to-hugo/</link>
       <pubDate>Sun, 10 May 2015 20:12:10 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://localhost:1313/post/switching-to-hugo/</guid>
+      <guid>http://heiber.im/post/switching-to-hugo/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://gohugo.io&#34;&gt;Hugo&lt;/a&gt; is a static site generator written in &lt;a href=&#34;http://golang.org&#34;&gt;Go&lt;/a&gt;. It&amp;rsquo;s incredibly fast and flexible, has a unique template engine, and writing themes is really easy, should the slew of available themes not be to your liking. I decided to use it because it lets me get rid of all the dependencies &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt; came with, it had a comprehensive preview mechanism (&lt;code&gt;hugo server&lt;/code&gt;) and it allowed for a very narrow deployment pipeline to &lt;a href=&#34;http://pages.github.com&#34;&gt;GitHub Pages&lt;/a&gt;, where this site is hosted at. Coincidentally, this is also why it doesn&amp;rsquo;t offer TLS supports.&lt;/p&gt;
@@ -840,16 +752,16 @@ done
     
     <item>
       <title>About me</title>
-      <link>http://localhost:1313/about/</link>
+      <link>http://heiber.im/about/</link>
       <pubDate>Sun, 10 May 2015 11:35:02 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://localhost:1313/about/</guid>
+      <guid>http://heiber.im/about/</guid>
       <description>
 
 &lt;p&gt;
 &lt;figure class=&#34;about&#34;&gt;
     
-        &lt;img src=&#34;http://localhost:1313/images/moritz2.jpg&#34; /&gt;
+        &lt;img src=&#34;http://heiber.im/images/moritz2.jpg&#34; /&gt;
     
     
     &lt;figcaption&gt;
@@ -886,10 +798,10 @@ I&amp;rsquo;m Moritz Heiber and I work as DevOps Birth Assistant at &lt;a href=&
     
     <item>
       <title>Dynamics DNS with pfSense and Route53</title>
-      <link>http://localhost:1313/post/dynamics-dns-with-pfsense-and-route53/</link>
+      <link>http://heiber.im/post/dynamics-dns-with-pfsense-and-route53/</link>
       <pubDate>Fri, 28 Feb 2014 12:17:36 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://localhost:1313/post/dynamics-dns-with-pfsense-and-route53/</guid>
+      <guid>http://heiber.im/post/dynamics-dns-with-pfsense-and-route53/</guid>
       <description>&lt;p&gt;The quite excellent &lt;a href=&#34;https://pfsense.org&#34;&gt;pfSense&lt;/a&gt; comes with a &lt;a href=&#34;http://en.wikipedia.org/wiki/Dynamic_DNS&#34;&gt;dynamic DNS&lt;/a&gt; plugin for &lt;a href=&#34;http://aws.amazon.com/route53/&#34;&gt;Amazon&amp;rsquo;s Route53 DNS management service&lt;/a&gt;. However, there is little to no documentation provided on how to set it up properly and especially about setting up the &lt;a href=&#34;http://aws.amazon.com/iam/&#34;&gt;relevant IAM access policies&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;So I went to the &lt;a href=&#34;https://github.com/pfsense/&#34;&gt;pfSense repository on GitHub&lt;/a&gt; and browsed the code in order to find out how much access the plugin needed in order to do its deed.&lt;/p&gt;

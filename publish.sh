@@ -19,6 +19,9 @@ push_git () {
   git subtree push --prefix public ${GIT_URL} ${GIT_BRANCH}
 }
 
+# Make sure there are no remnants behind
+rm -rf public/*
+
 # Build the project. 
 hugo -t hyde-x
 
