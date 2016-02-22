@@ -7,10 +7,10 @@ echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
 push_git () {
   msg="Rebuilding site `date`"
-  if [ $# -eq 1 ] ; then 
+  if [ $# -eq 1 ] ; then
     msg="$1"
   fi
-  
+
   # Commit changes.
   git commit -m "$msg"
 
@@ -22,8 +22,11 @@ push_git () {
 # Make sure there are no remnants behind
 rm -rf public/*
 
-# Build the project. 
+# Build the project.
 hugo -t hyde-x
+
+# Making sure we have a CNAME set
+echo "heiber.im" > public/CNAME
 
 # Add changes to git.
 git add --all
