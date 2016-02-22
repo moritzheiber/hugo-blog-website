@@ -4,6 +4,7 @@ date = "2016-02-07T14:09:05+01:00"
 description = "Lets take a look at how to to create a very small, versatile Docker base image which you can use for pretty much any purpose in today's changing container landscape"
 keywords = ["alpine linux", "docker", "security"]
 title = "Creating a good, secure Docker base image"
+draft = true
 
 +++
 
@@ -153,19 +154,19 @@ As mentioned before, Oracle's JRE needs a working copy of glibc to run properly.
 
 Unless you have to use glibc to run proprietary code.
 
-With Oracle's JRE, there is no way around adding glibc to our small image. Luckily, [Andy Shinn](https://github.com/andyshinn) has done all of the work for us already, preparing pre-compiled, signed glibc images for Alpine Linux. They are in the [alpine-pkg-glibc](https://github.com/andyshinn/alpine-pkg-glibc) repository on GitHub, with the most recent release being [2.22-r5](https://github.com/andyshinn/alpine-pkg-glibc/releases/tag/2.22-r5).
+With Oracle's JRE, there is no way around adding glibc to our small image. Luckily, [Andy Shinn](https://github.com/andyshinn) has done all of the work for us already, preparing pre-compiled, signed glibc images for Alpine Linux. They are in the [alpine-pkg-glibc](https://github.com/andyshinn/alpine-pkg-glibc) repository on GitHub, with the most recent release being [2.23-r1](https://github.com/andyshinn/alpine-pkg-glibc/releases/tag/2.22-r5).
 
 Let's add these packages by changing our `Dockerfile` in the following way:
 
 ```docker
-ENV GLIBC_PKG_VERSION 2.22-r5
+ENV GLIBC_PKG_VERSION 2.23-r1
 
 RUN apk add --no-cache --update-cache curl ca-certificates bash && \
+  curl -Lo /etc/apk/keys/andyshinn.rsa.pub "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub" && \
   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" && \
   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk" && \
-  apk add --allow-untrusted glibc-${GLIBC_PKG_VERSION}.apk && \
-  apk add --allow-untrusted glibc-bin-${GLIBC_PKG_VERSION}.apk && \
-  /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib
+  curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk" && \
+  apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk && \
 ```
 
 Our `Dockerfile` now looks like this:
@@ -174,14 +175,14 @@ Our `Dockerfile` now looks like this:
 FROM alpine:latest
 MAINTAINER Moritz Heiber <hello@heiber.im>
 
-ENV GLIBC_PKG_VERSION 2.22-r5
+ENV GLIBC_PKG_VERSION 2.23-r1
 
 RUN apk add --no-cache --update-cache curl ca-certificates bash && \
+  curl -Lo /etc/apk/keys/andyshinn.rsa.pub "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub" && \
   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" && \
   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk" && \
-  apk add --allow-untrusted glibc-${GLIBC_PKG_VERSION}.apk && \
-  apk add --allow-untrusted glibc-bin-${GLIBC_PKG_VERSION}.apk && \
-  /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib
+  curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk" && \
+  apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk
 
 CMD ["/bin/bash"]
 ```
@@ -189,7 +190,7 @@ CMD ["/bin/bash"]
 Let's walk through these instructions one by one:
 
 ```Docker
-ENV GLIBC_PKG_VERSION 2.22-r5
+ENV GLIBC_PKG_VERSION 2.23-r1
 ```
 
 We want to stay on the current version of glibc released on GitHub. While you could just exchange URLs each and every time a new release comes up, putting the current version into a variable within the `Dockerfile` makes switching versions as easy as editing a single line.
@@ -201,17 +202,21 @@ RUN apk add --update-cache curl ca-certificates bash && \
 This `RUN` instruction will use the `apk` command to install the packages we need in order to fetch resources from somewhere else. Obviously, I chose `curl`, and I also installed the `ca-certificates` package to make sure we aren't going to run into trouble when accessing TLS enabled websites. Lastly, `bash` at the end we already had in our last iteration of our `Dockerfile`.
 
 ```bash
- curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" && \
+  curl -Lo /etc/apk/keys/andyshinn.rsa.pub "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub" && \
+  curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" && \
   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk" && \
+  curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk" && \
 ```
 
-These commands are appended to the `RUN` instruction we just discussed. They are downloading the release packages for glibc directly from GitHub.
+These commands are appended to the `RUN` instruction we just discussed. They are **downloading the author's public key and the release packages** for glibc directly from GitHub.
+
+_Note: To this day I haven't found a single `Dockerfile` which actually verifies the content of these signed packages. I've decided to rather [get the packages fixed](https://github.com/andyshinn/alpine-pkg-glibc/issues/2) before releasing this blog post_
 
 ```bash
-/usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib
+  apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk
 ```
 
-The last step is to ensure the linker provided by glibc is up-to-date when it come to all the available libraries it's supposed to be serving for dynamically linked binaries. It's essential since otherwise the JRE binaries wouldn't be able to find the libc libraries to hook into at runtime.
+Once we've downloaded all the packages we can go ahead and install them all using this one line. Their signatures will be verified since we added the author's public key earlier.
 
 All right! We now have a full-fledged environment ready to run (almost) all package requiring glibc!
 
@@ -321,16 +326,16 @@ ENV JAVA_VERSION_MAJOR 8
 ENV JAVA_VERSION_MINOR 72
 ENV JAVA_VERSION_BUILD 15
 ENV JAVA_PACKAGE server-jre
-ENV GLIBC_PKG_VERSION 2.22-r5
+ENV GLIBC_PKG_VERSION 2.23-r1
 
 WORKDIR /tmp
 
 RUN apk add --no-cache --update-cache curl ca-certificates bash && \
+  curl -Lo /etc/apk/keys/andyshinn.rsa.pub "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub" && \
   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" && \
   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk" && \
-  apk add --allow-untrusted glibc-${GLIBC_PKG_VERSION}.apk && \
-  apk add --allow-untrusted glibc-bin-${GLIBC_PKG_VERSION}.apk && \
-  /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
+  curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk" && \
+  apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk && \
   curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie" \
   "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz" | gunzip -c - | tar -xf - && \
   apk del curl ca-certificates && \
@@ -357,7 +362,7 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 ENV LANG en_US.UTF-8
 ```
 
-Notice how I have merged the two `RUN` instructions. This is mainly because it's better to use a smaller amount of intermediary layers, especially since this is supposed to be a container everybody uses as a building block. If you want to find out more about Docker, containers, images and layers I recommend [the official documentation on what layers are and how images are using them to their benefit](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/).
+Notice how I have merged the two `RUN` instructions. This is mainly because it's better to use a smaller amount of intermediary layers, especially since this is supposed to be a container everybody uses as a building block. If you want to find out more about Docker, containers, images and layers I recommend reading [the official documentation on what layers are and how images are using them to their benefit](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/).
 
 _As a rule of thumb: More layers if you want more flexibility, less layers if you want to save on size and complexity. It depends on your preferences._
 
@@ -515,6 +520,10 @@ Once you realize that a Docker container shouldn't be anything else but a barebo
 - **Security is vital, be sure which images you pull from**: If you are not, you're essentially using unsigned, unverified images. [Docker has started working on this issue](https://docs.docker.com/engine/security/trust/content_trust/) but there still is a long way to go. The images we used, as well as the glibc package and the JRE, are either obtained from official sources (Docker distributed the Alpine Linux image; Oracle's JRE is downloaded directly from their servers) or signed/verified throughout the installation process (glibc package).
 
 **Now, go ahead and build small, lean and efficient containers!**
+
+## Acknowledgements
+
+This all wouldn't have gotten written if it weren't for the fantastic work of [Andy Shinn](https://github.com/andyshinn). Thanks Andy!
 
 ## Feedback
 
