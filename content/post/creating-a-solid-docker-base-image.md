@@ -1,6 +1,6 @@
 +++
 categories = ["docker", "devops", "java"]
-date = "2016-02-07T14:09:05+01:00"
+date = "2016-02-23T18:24:05+01:00"
 description = "Lets take a look at how to to create a very small, versatile Docker base image which you can use for pretty much any purpose in today's changing container landscape"
 keywords = ["alpine linux", "docker", "security"]
 title = "Creating a good, secure Docker base image"
