@@ -4,7 +4,6 @@ date = "2016-02-07T14:09:05+01:00"
 description = "Lets take a look at how to to create a very small, versatile Docker base image which you can use for pretty much any purpose in today's changing container landscape"
 keywords = ["alpine linux", "docker", "security"]
 title = "Creating a good, secure Docker base image"
-draft = true
 
 +++
 
@@ -14,15 +13,15 @@ draft = true
 
 When I first started using Docker, everyone kept raving about how easy and intuitive it was to use, how incredibly well it handled itself and how much time everyone was saving because of it. Once I gave it a try I discovered that not only was almost any image bloated beyond recognition, used very insecure practices (no package signing, `curl | sh` installing, blind trust in upstream hub images etc.) but also none of them adhered to the concept Docker was intended for originally: *Isolated, single-process, easily distributable, lean images*.
 
-Docker images, explicitely, are not designed to replace complex virtual machine setups, fully integrated with logging, monitoring, alerting and several resources running side-by-side. Instead, Docker encourages composition by following the paradigm of the kernel environment abstraction though [cgroups](https://en.wikipedia.org/wiki/Cgroups) and [namespaces](https://en.wikipedia.org/wiki/Cgroups#Namespace_isolation). It's as if you were trying to say
+Docker images, explicitly, are not designed to replace complex virtual machine setups, fully integrated with logging, monitoring, alerting and several resources running side-by-side. Instead, Docker encourages composition by following the paradigm of the kernel environment abstraction though [cgroups](https://en.wikipedia.org/wiki/Cgroups) and [namespaces](https://en.wikipedia.org/wiki/Cgroups#Namespace_isolation). It's as if you were trying to say
 
 > Give me the very same bare-bones environment the `init` process gets on my machine once the kernel has finished initializing.
 
 > I'll take over from there
 
-That is also why the process you're specifying in your `Dockerfile`'s `CMD` instruction is started with `PID 1`. It's a close resemblence of what defines Unix as a whole.
+That is also why the process you're specifying in your `Dockerfile`'s `CMD` instruction is started with `PID 1`. It's a close resemblance of what defines Unix as a whole.
 
-Look at your process list right now, using `top` or `ps` for example, and you will find the process `init` claiming that very same `PID`. It's the core of very Unix operating system, the mother of all processes. Once you have internalized this concept, that every single process on Unix is a child of `init`, you will understand the environment a Docker container is supposed to live in: No-frills, bare kernel exposure. The miminum for any process to live on.
+Look at your process list right now, using `top` or `ps` for example, and you will find the process `init` claiming that very same `PID`. It's the core of very Unix operating system, the mother of all processes. Once you have internalized this concept, that every single process on Unix is a child of `init`, you will understand the environment a Docker container is supposed to live in: No-frills, bare kernel exposure. The minimum for any process to live on.
 
 That's our starting point
 
@@ -34,7 +33,7 @@ Now, today's applications are complex software systems. Most of them require a l
 
 To start things off, and to build the most basic container you can run your application on, think of your application by itself. What does it actually need to run?
 
-Chances are, if you're running a Java application, it'll probably need a Java runtime environment. If you're running a Rails application it will need a runtime Ruby interpreter. The same logic applies to Python applications. Golang and other compiled languages are a little different in this regard, but I will come that later.
+Chances are, if you're running a Java application, it'll probably need a Java runtime environment. If you're running a Rails application it will need a runtime Ruby interpreter. The same logic applies to Python applications. Go and other compiled languages are a little different in this regard, but I will come that later.
 
 Advancing with the Java example, the next step to think about is: What does a JRE require to run? Since it's the single most vital component to getting your application to run, the next logical step would be to figure out what the JRE needs to run your code.
 
@@ -51,11 +50,11 @@ To sum up our requirements to run an example Java application:
 - A JRE, in your example, we'll take the Oracle JRE
 - glibc, for running the JRE
 - A shell, for the sake of familiarity we will take the popular bash shell
-- A barebones environment to give us awareness for networking, memory management, filesystem support and other important abstractions like (ttys, input/output handling etc.)
+- A bare bones environment to give us awareness for networking, memory management, filesystem support and other important abstractions like (ttys, input/output handling etc.)
 
 # Enter Alpine Linux
 
-[Alpine Linux](https://www.alpinelinux.org/) has been gaining a lot of support as a distribution recently, mainly because it [packs quite a punch in terms of selection of pre-build, signed and trusted packages](https://pkgs.alpinelinux.org/packages) while only clocking a very impressive 2MB (!) in size when attached to a Docker container. To put this into perspective, while writing this post, the lastest base images (already stripped down to their very code functionality) for other distributions maintain the following sizing:
+[Alpine Linux](https://www.alpinelinux.org/) has been gaining a lot of support as a distribution recently, mainly because it [packs quite a punch in terms of selection of pre-build, signed and trusted packages](https://pkgs.alpinelinux.org/packages) while only clocking a very impressive 2MB (!) in size when attached to a Docker container. To put this into perspective, while writing this post, the latest base images (already stripped down to their very code functionality) for other distributions maintain the following sizing:
 
 - `ubuntu:latest`: 66MB (already fairly slim compared to, e.g. earlier images which sometimes carried around 600MB+ with them)
 - `debian:latest`: 55MB (same as above, quite alright considering they started with 200MB+)
@@ -67,7 +66,7 @@ I won't go into detail of what Alpine Linux actually is and why it exists. [They
 
 ## Busybox as the smallest contender?
 
-As you can see from the comparison, The only one beating Alpine Linux to the punch in terms of sizing is the Busybox image. 676KB are a testament as to why Busybox is used in pretty much all embedded systems requiring any kind of shell environment these days. It's used in routers, switches, credit card terminals (seriously) and, someday, [probably your toaster](http://www.bbc.com/future/story/20150216-be-afraid-of-the-smart-toaster). It's as barebones as barebones can be, while still providing a sufficient, well maintained shell system interface.
+As you can see from the comparison, The only one beating Alpine Linux to the punch in terms of sizing is the Busybox image. 676KB are a testament as to why Busybox is used in pretty much all embedded systems requiring any kind of shell environment these days. It's used in routers, switches, credit card terminals (seriously) and, someday, [probably your toaster](http://www.bbc.com/future/story/20150216-be-afraid-of-the-smart-toaster). It's as bare bones as bare bones can be, while still providing a sufficient, well maintained shell system interface.
 
 And that's also why you will want to choose Alpine Linux over Busybox if you want a little more wiggle room in terms of flexibility.
 
@@ -83,7 +82,7 @@ As I just explained, Alpine Linux is a good choice for the foundation of your ow
 
 ## The seams: Alpine + bash
 
-Every `Dockerfile` starts with an instruction which specifies its parent container. Usually, that's an image you are inhereting from; in our case it's the `alpine:latest` image:
+Every `Dockerfile` starts with an instruction which specifies its parent container. Usually, that's an image you are inheriting from; in our case it's the `alpine:latest` image:
 
     FROM alpine:latest
     MAINTAINER Moritz Heiber <hello@heiber.im>
@@ -210,7 +209,7 @@ This `RUN` instruction will use the `apk` command to install the packages we nee
 
 These commands are appended to the `RUN` instruction we just discussed. They are **downloading the author's public key and the release packages** for glibc directly from GitHub.
 
-_Note: To this day I haven't found a single `Dockerfile` which actually verifies the content of these signed packages. I've decided to rather [get the packages fixed](https://github.com/andyshinn/alpine-pkg-glibc/issues/2) before releasing this blog post_
+_Note: To this day I haven't found a single `Dockerfile` which actually verifies the content of these signed packages. I've decided to rather [get the packages fixed](https://github.com/andyshinn/alpine-pkg-glibc/issues/2) and verify their signatures during the build process before releasing this blog post_
 
 ```bash
   apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk
@@ -226,8 +225,8 @@ Traditionally, Oracle doesn't take all that kindly to people downloading their s
 
 ```Docker
 ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 72
-ENV JAVA_VERSION_BUILD 15
+ENV JAVA_VERSION_MINOR 73
+ENV JAVA_VERSION_BUILD 02
 ENV JAVA_PACKAGE server-jre
 
 RUN curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie" \
@@ -261,8 +260,8 @@ All right, all right, let's step through them one by one before we take a look a
 
 ```Docker
 ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 72
-ENV JAVA_VERSION_BUILD 15
+ENV JAVA_VERSION_MINOR 73
+ENV JAVA_VERSION_BUILD 02
 ENV JAVA_PACKAGE server-jre
 
 WORKDIR /tmp
@@ -323,8 +322,8 @@ FROM alpine:latest
 MAINTAINER Moritz Heiber <hello@heiber.im>
 
 ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 72
-ENV JAVA_VERSION_BUILD 15
+ENV JAVA_VERSION_MINOR 73
+ENV JAVA_VERSION_BUILD 02
 ENV JAVA_PACKAGE server-jre
 ENV GLIBC_PKG_VERSION 2.23-r1
 
@@ -391,39 +390,32 @@ Finally, we've reached a point where we can build our image:
 
 ```bash
 $ docker build -t my-java-base-image .
-Sending build context to Docker daemon 3.584 kB
+Sending build context to Docker daemon 73.22 kB
 Step 1 : FROM alpine:latest
  ---> 2314ad3eeb90
 Step 2 : MAINTAINER Moritz Heiber <hello@heiber.im>
- ---> Running in 95ed975f09f9
+ ---> Using cache
  ---> 93cc2bc0bd60
-Removing intermediate container 95ed975f09f9
 Step 3 : ENV JAVA_VERSION_MAJOR 8
- ---> Running in 222af26f76fb
+ ---> Using cache
  ---> d03512eacddf
-Removing intermediate container 222af26f76fb
-Step 4 : ENV JAVA_VERSION_MINOR 72
- ---> Running in bace6309bed5
- ---> 1ef907c5fc42
-Removing intermediate container bace6309bed5
-Step 5 : ENV JAVA_VERSION_BUILD 15
- ---> Running in e711d3930716
- ---> fc58167137f3
-Removing intermediate container e711d3930716
+Step 4 : ENV JAVA_VERSION_MINOR 73
+ ---> Using cache
+ ---> 54c6189a0f46
+Step 5 : ENV JAVA_VERSION_BUILD 02
+ ---> Using cache
+ ---> 7855744f0734
 Step 6 : ENV JAVA_PACKAGE server-jre
- ---> Running in c0a11671c3a2
- ---> 1551bf0e99c3
-Removing intermediate container c0a11671c3a2
-Step 7 : ENV GLIBC_PKG_VERSION 2.22-r5
- ---> Running in 9932f9681e32
- ---> ed65857df324
-Removing intermediate container 9932f9681e32
+ ---> Using cache
+ ---> 50a1e80d4651
+Step 7 : ENV GLIBC_PKG_VERSION 2.23-r1
+ ---> Using cache
+ ---> 45bad979e8f8
 Step 8 : WORKDIR /tmp
- ---> Running in d9712f67c5d9
- ---> e768637ed058
-Removing intermediate container d9712f67c5d9
-Step 9 : RUN apk add --no-cache --update-cache curl ca-certificates bash &&   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" &&   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk" &&   apk add --allow-untrusted glibc-${GLIBC_PKG_VERSION}.apk &&   apk add --allow-untrusted glibc-bin-${GLIBC_PKG_VERSION}.apk &&   /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib &&   curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie"   "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz" | gunzip -c - | tar -xf - &&   apk del curl ca-certificates &&   mv jdk1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR}/jre /jre &&   rm /jre/bin/jjs &&   rm /jre/bin/keytool &&   rm /jre/bin/orbd &&   rm /jre/bin/pack200 &&   rm /jre/bin/policytool &&   rm /jre/bin/rmid &&   rm /jre/bin/rmiregistry &&   rm /jre/bin/servertool &&   rm /jre/bin/tnameserv &&   rm /jre/bin/unpack200 &&   rm /jre/lib/ext/nashorn.jar &&   rm /jre/lib/jfr.jar &&   rm -rf /jre/lib/jfr &&   rm -rf /jre/lib/oblique-fonts &&   rm -rf /tmp/* /var/cache/apk/* &&   echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
- ---> Running in 07d9d69bb0f6
+ ---> Using cache
+ ---> 8cf31e85bb15
+Step 9 : RUN apk add --no-cache --update-cache curl ca-certificates bash &&   curl -Lo /etc/apk/keys/andyshinn.rsa.pub "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub" &&   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk" &&   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk" &&   curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk" &&   apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk &&   curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie"   "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz" | gunzip -c - | tar -xf - &&   apk del curl ca-certificates &&   mv jdk1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR}/jre /jre &&   rm /jre/bin/jjs &&   rm /jre/bin/keytool &&   rm /jre/bin/orbd &&   rm /jre/bin/pack200 &&   rm /jre/bin/policytool &&   rm /jre/bin/rmid &&   rm /jre/bin/rmiregistry &&   rm /jre/bin/servertool &&   rm /jre/bin/tnameserv &&   rm /jre/bin/unpack200 &&   rm /jre/lib/ext/nashorn.jar &&   rm /jre/lib/jfr.jar &&   rm -rf /jre/lib/jfr &&   rm -rf /jre/lib/oblique-fonts &&   rm -rf /tmp/* /var/cache/apk/* &&   echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
+ ---> Running in 8aefe40205ee
 fetch http://dl-4.alpinelinux.org/alpine/v3.3/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-4.alpinelinux.org/alpine/v3.3/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-4.alpinelinux.org/alpine/v3.3/community/x86_64/APKINDEX.tar.gz
@@ -443,46 +435,57 @@ Executing ca-certificates-20160104-r2.trigger
 OK: 15 MiB in 20 packages
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   609    0   609    0     0   1006      0 --:--:-- --:--:-- --:--:--  1009
-100 2867k  100 2867k    0     0   719k      0  0:00:03  0:00:03 --:--:--  918k
+100   594    0   594    0     0   1083      0 --:--:-- --:--:-- --:--:--  1157
+100   451  100   451    0     0    406      0  0:00:01  0:00:01 --:--:--  1383
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   613    0   613    0     0   1132      0 --:--:-- --:--:-- --:--:--  1137
-100 1732k  100 1732k    0     0   506k      0  0:00:03  0:00:03 --:--:--  684k
-(1/1) Installing glibc (2.22-r5)
-OK: 19 MiB in 21 packages
-(1/1) Installing glibc-bin (2.22-r5)
-OK: 21 MiB in 22 packages
+100   609    0   609    0     0    354      0 --:--:--  0:00:01 --:--:--   361
+100 2874k  100 2874k    0     0   434k      0  0:00:06  0:00:06 --:--:--  712k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   613    0   613    0     0   1124      0 --:--:-- --:--:-- --:--:--  1199
+100 1710k  100 1710k    0     0   656k      0  0:00:02  0:00:02 --:--:-- 1173k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   614    0   614    0     0   1095      0 --:--:-- --:--:-- --:--:--  1167
+100 7154k  100 7154k    0     0   884k      0  0:00:08  0:00:08 --:--:-- 1201k
+(1/4) Installing glibc (2.23-r1)
+(2/4) Installing libgcc (5.3.0-r0)
+(3/4) Installing glibc-bin (2.23-r1)
+(4/4) Installing glibc-i18n (2.23-r1)
+Executing glibc-bin-2.23-r1.trigger
+OK: 31 MiB in 24 packages
 (1/4) Purging curl (7.47.0-r0)
 (2/4) Purging ca-certificates (20160104-r2)
 (3/4) Purging openssl (1.0.2f-r0)
 (4/4) Purging libssh2 (1.6.0-r0)
 Executing busybox-1.24.1-r7.trigger
-OK: 19 MiB in 18 packages
- ---> 44974e8beb52
-Removing intermediate container 07d9d69bb0f6
+Executing glibc-bin-2.23-r1.trigger
+OK: 29 MiB in 20 packages
+ ---> 2173d0983806
+Removing intermediate container 8aefe40205ee
 Step 10 : ENV JAVA_HOME /jre
- ---> Running in 1a373dc6f66e
- ---> 132c9c576162
-Removing intermediate container 1a373dc6f66e
+ ---> Running in 12adf0602e79
+ ---> 900d42b31a9e
+Removing intermediate container 12adf0602e79
 Step 11 : ENV PATH ${PATH}:${JAVA_HOME}/bin
- ---> Running in 89d4ecb314b4
- ---> f1fbbb7fa768
-Removing intermediate container 89d4ecb314b4
+ ---> Running in 4cd4171d6bef
+ ---> a552d8cc48d8
+Removing intermediate container 4cd4171d6bef
 Step 12 : ENV LANG en_US.UTF-8
- ---> Running in ac38d442c8d8
- ---> 911a6604cec9
-Removing intermediate container ac38d442c8d8
-Successfully built 911a6604cec9
+ ---> Running in 9bdd2a17dc10
+ ---> 334ee3938de7
+Removing intermediate container 9bdd2a17dc10
+Successfully built 334ee3938de7
 ```
 
 Woohoo! It finished successfully. To make sure it actually did what we asked for, let's try running `java` inside the container, shall we?
 
 ```bash
-$ docker run -ti --rm my-java-base-image java -version
-java version "1.8.0_72"
-Java(TM) SE Runtime Environment (build 1.8.0_72-b15)
-Java HotSpot(TM) 64-Bit Server VM (build 25.72-b15, mixed mode)
+$ docker run --rm -ti my-java-base-image java -version
+java version "1.8.0_73"
+Java(TM) SE Runtime Environment (build 1.8.0_73-b02)
+Java HotSpot(TM) 64-Bit Server VM (build 25.73-b02, mixed mode)
 ```
 
 Brilliant! That's exactly what we wanted. Now we have a full-fledged base image with Oracle's JRE ready to be used by another application. In the future, the only thing you need to do is to use your own base image as a `FROM` instruction in your application's `Dockerfile`:
@@ -499,7 +502,7 @@ Let's find out:
 
 ```bash
 $ docker images | grep my-java-base-image | awk '{print $7,$8}'
-121.2 MB
+130.4 MB
 ```
 
 That is quite large to be honest. Our original image clocked in at a mere 9MB.
@@ -510,7 +513,7 @@ But that's Java for you, I guess ;)
 
 We have built a solid, small and efficient Docker container image together which is capable of running pretty much any Java application you throw at it. Of course, there are edge cases for which you will have to adapt the configuration, but the general ideas behind it, starting small, growing carefully, using secure sources for building your image, are transcending these probable changes.
 
-Once you realize that a Docker container shouldn't be anything else but a barebones, single-process container for your application you can start focussing on just the essentials without having to care about any of cruft that's usually pulled in alongside regular setup routines.
+Once you realize that a Docker container shouldn't be anything else but a bare bones, single-process container for your application you can start focussing on just the essentials without having to care about any of cruft that's usually pulled in alongside regular setup routines.
 
 ## A few simple guidelines
 
@@ -527,4 +530,4 @@ This all wouldn't have gotten written if it weren't for the fantastic work of [A
 
 ## Feedback
 
-I hope you enjoyed this article. Should you have comments, questions or suggestions (or even constructive critism ) let me know on [Twitter](https://twitter.com/moritzheiber) or [write me an email](mailto:hello@heiber.im).
+I hope you enjoyed this article. Should you have comments, questions or suggestions (or even constructive criticism ) let me know on [Twitter](https://twitter.com/moritzheiber) or [write me an email](mailto:hello@heiber.im).
