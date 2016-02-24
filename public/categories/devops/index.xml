@@ -35,7 +35,7 @@
 
 &lt;p&gt;That is also why the process you&amp;rsquo;re specifying in your &lt;code&gt;Dockerfile&lt;/code&gt;&amp;rsquo;s &lt;code&gt;CMD&lt;/code&gt; instruction is started with &lt;code&gt;PID 1&lt;/code&gt;. It&amp;rsquo;s a close resemblance of what defines Unix as a whole.&lt;/p&gt;
 
-&lt;p&gt;Look at your process list right now, using &lt;code&gt;top&lt;/code&gt; or &lt;code&gt;ps&lt;/code&gt; for example, and you will find the process &lt;code&gt;init&lt;/code&gt; claiming that very same &lt;code&gt;PID&lt;/code&gt;. It&amp;rsquo;s the core of very Unix operating system, the mother of all processes. Once you have internalized this concept, that every single process on Unix is a child of &lt;code&gt;init&lt;/code&gt;, you will understand the environment a Docker container is supposed to live in: No-frills, bare kernel exposure. The minimum for any process to live on.&lt;/p&gt;
+&lt;p&gt;Look at your process list right now, using &lt;code&gt;top&lt;/code&gt; or &lt;code&gt;ps&lt;/code&gt; for example, and you will find the process &lt;code&gt;init&lt;/code&gt; claiming that very same &lt;code&gt;PID&lt;/code&gt;. It&amp;rsquo;s the core of every Unix operating system, the mother of all processes. Once you have internalized this concept, that every single process on Unix is a child of &lt;code&gt;init&lt;/code&gt;, you will understand the environment a Docker container is supposed to live in: No-frills, bare kernel exposure. The minimum for any process to live on.&lt;/p&gt;
 
 &lt;p&gt;That&amp;rsquo;s our starting point&lt;/p&gt;
 
@@ -84,7 +84,7 @@
 
 &lt;h2 id=&#34;busybox-as-the-smallest-contender:901618bebcbe06bc74bd8d987e29f817&#34;&gt;Busybox as the smallest contender?&lt;/h2&gt;
 
-&lt;p&gt;As you can see from the comparison, The only one beating Alpine Linux to the punch in terms of sizing is the Busybox image. 676KB are a testament as to why Busybox is used in pretty much all embedded systems requiring any kind of shell environment these days. It&amp;rsquo;s used in routers, switches, credit card terminals (seriously) and, someday, &lt;a href=&#34;http://www.bbc.com/future/story/20150216-be-afraid-of-the-smart-toaster&#34;&gt;probably your toaster&lt;/a&gt;. It&amp;rsquo;s as bare bones as bare bones can be, while still providing a sufficient, well maintained shell system interface.&lt;/p&gt;
+&lt;p&gt;As you can see from the comparison, the only one beating Alpine Linux to the punch in terms of sizing is the Busybox image. 676KB are a testament as to why Busybox is used in pretty much all embedded systems requiring any kind of shell environment these days. It&amp;rsquo;s used in routers, switches, credit card terminals (seriously) and, someday, &lt;a href=&#34;http://www.bbc.com/future/story/20150216-be-afraid-of-the-smart-toaster&#34;&gt;probably your toaster&lt;/a&gt;. It&amp;rsquo;s as bare bones as bare bones can be, while still providing a sufficient, well maintained shell system interface.&lt;/p&gt;
 
 &lt;p&gt;And that&amp;rsquo;s also why you will want to choose Alpine Linux over Busybox if you want a little more wiggle room in terms of flexibility.&lt;/p&gt;
 

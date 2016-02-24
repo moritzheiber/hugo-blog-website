@@ -21,7 +21,7 @@ Docker images, explicitly, are not designed to replace complex virtual machine s
 
 That is also why the process you're specifying in your `Dockerfile`'s `CMD` instruction is started with `PID 1`. It's a close resemblance of what defines Unix as a whole.
 
-Look at your process list right now, using `top` or `ps` for example, and you will find the process `init` claiming that very same `PID`. It's the core of very Unix operating system, the mother of all processes. Once you have internalized this concept, that every single process on Unix is a child of `init`, you will understand the environment a Docker container is supposed to live in: No-frills, bare kernel exposure. The minimum for any process to live on.
+Look at your process list right now, using `top` or `ps` for example, and you will find the process `init` claiming that very same `PID`. It's the core of every Unix operating system, the mother of all processes. Once you have internalized this concept, that every single process on Unix is a child of `init`, you will understand the environment a Docker container is supposed to live in: No-frills, bare kernel exposure. The minimum for any process to live on.
 
 That's our starting point
 
@@ -66,7 +66,7 @@ I won't go into detail of what Alpine Linux actually is and why it exists. [They
 
 ## Busybox as the smallest contender?
 
-As you can see from the comparison, The only one beating Alpine Linux to the punch in terms of sizing is the Busybox image. 676KB are a testament as to why Busybox is used in pretty much all embedded systems requiring any kind of shell environment these days. It's used in routers, switches, credit card terminals (seriously) and, someday, [probably your toaster](http://www.bbc.com/future/story/20150216-be-afraid-of-the-smart-toaster). It's as bare bones as bare bones can be, while still providing a sufficient, well maintained shell system interface.
+As you can see from the comparison, the only one beating Alpine Linux to the punch in terms of sizing is the Busybox image. 676KB are a testament as to why Busybox is used in pretty much all embedded systems requiring any kind of shell environment these days. It's used in routers, switches, credit card terminals (seriously) and, someday, [probably your toaster](http://www.bbc.com/future/story/20150216-be-afraid-of-the-smart-toaster). It's as bare bones as bare bones can be, while still providing a sufficient, well maintained shell system interface.
 
 And that's also why you will want to choose Alpine Linux over Busybox if you want a little more wiggle room in terms of flexibility.
 
