@@ -19,6 +19,8 @@
       <guid>http://heiber.im/post/creating-a-solid-docker-base-image/</guid>
       <description>
 
+&lt;p&gt;&lt;em&gt;Last updated: &lt;a href=&#34;#updates:901618bebcbe06bc74bd8d987e29f817&#34;&gt;2016-02-25&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;: Build small, efficient images, use &lt;a href=&#34;https://www.alpinelinux.org/&#34;&gt;Alpine Linux&lt;/a&gt; as your foundation, build from there, add glibc if necessary, remove static/generated files and documentation, never run more than one process per container and use verified, trustworthy sources.&lt;/p&gt;
 
 &lt;h1 id=&#34;the-premise:901618bebcbe06bc74bd8d987e29f817&#34;&gt;The premise&lt;/h1&gt;
@@ -174,11 +176,11 @@ bash-4.3#
 
 &lt;p&gt;Unless you have to use glibc to run proprietary code.&lt;/p&gt;
 
-&lt;p&gt;With Oracle&amp;rsquo;s JRE, there is no way around adding glibc to our small image. Luckily, &lt;a href=&#34;https://github.com/andyshinn&#34;&gt;Andy Shinn&lt;/a&gt; has done all of the work for us already, preparing pre-compiled, signed glibc images for Alpine Linux. They are in the &lt;a href=&#34;https://github.com/andyshinn/alpine-pkg-glibc&#34;&gt;alpine-pkg-glibc&lt;/a&gt; repository on GitHub, with the most recent release being &lt;a href=&#34;https://github.com/andyshinn/alpine-pkg-glibc/releases/tag/2.22-r5&#34;&gt;2.23-r1&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;With Oracle&amp;rsquo;s JRE, there is no way around adding glibc to our small image. Luckily, &lt;a href=&#34;https://github.com/andyshinn&#34;&gt;Andy Shinn&lt;/a&gt; has done all of the work for us already, preparing pre-compiled, signed glibc images for Alpine Linux. They are in the &lt;a href=&#34;https://github.com/andyshinn/alpine-pkg-glibc&#34;&gt;alpine-pkg-glibc&lt;/a&gt; repository on GitHub, with the most recent release being &lt;a href=&#34;https://github.com/andyshinn/alpine-pkg-glibc/releases/tag/2.23-r1&#34;&gt;2.23-r1&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s add these packages by changing our &lt;code&gt;Dockerfile&lt;/code&gt; in the following way:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-docker&#34;&gt;ENV GLIBC_PKG_VERSION 2.23-r1
+&lt;pre&gt;&lt;code class=&#34;language-docker&#34;&gt;ENV GLIBC_PKG_VERSION=2.23-r1
 
 RUN apk add --no-cache --update-cache curl ca-certificates bash &amp;amp;&amp;amp; \
   curl -Lo /etc/apk/keys/andyshinn.rsa.pub &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub&amp;quot; &amp;amp;&amp;amp; \
@@ -193,7 +195,7 @@ RUN apk add --no-cache --update-cache curl ca-certificates bash &amp;amp;&amp;am
 &lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;FROM alpine:latest
 MAINTAINER Moritz Heiber &amp;lt;hello@heiber.im&amp;gt;
 
-ENV GLIBC_PKG_VERSION 2.23-r1
+ENV GLIBC_PKG_VERSION=2.23-r1
 
 RUN apk add --no-cache --update-cache curl ca-certificates bash &amp;amp;&amp;amp; \
   curl -Lo /etc/apk/keys/andyshinn.rsa.pub &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub&amp;quot; &amp;amp;&amp;amp; \
@@ -207,7 +209,7 @@ CMD [&amp;quot;/bin/bash&amp;quot;]
 
 &lt;p&gt;Let&amp;rsquo;s walk through these instructions one by one:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV GLIBC_PKG_VERSION 2.23-r1
+&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV GLIBC_PKG_VERSION=2.23-r1
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We want to stay on the current version of glibc released on GitHub. While you could just exchange URLs each and every time a new release comes up, putting the current version into a variable within the &lt;code&gt;Dockerfile&lt;/code&gt; makes switching versions as easy as editing a single line.&lt;/p&gt;
@@ -238,10 +240,12 @@ CMD [&amp;quot;/bin/bash&amp;quot;]
 
 &lt;p&gt;Traditionally, Oracle doesn&amp;rsquo;t take all that kindly to people downloading their software some a repository. However, people have found a way of doing so regardless. You can install their JRE by adding the following command(s) to your &lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 73
-ENV JAVA_VERSION_BUILD 02
-ENV JAVA_PACKAGE server-jre
+&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV JAVA_VERSION_MAJOR=8 \
+    JAVA_VERSION_MINOR=73 \
+    JAVA_VERSION_BUILD=02 \
+    JAVA_PACKAGE=server-jre
+
+WORKDIR /tmp
 
 RUN curl -jksSLH &amp;quot;Cookie: oraclelicense=accept-securebackup-cookie&amp;quot; \
   &amp;quot;http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz&amp;quot; | gunzip -c - | tar -xf - &amp;amp;&amp;amp; \
@@ -272,10 +276,10 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 
 &lt;p&gt;All right, all right, let&amp;rsquo;s step through them one by one before we take a look at the &lt;code&gt;Dockerfile&lt;/code&gt; as a whole:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 73
-ENV JAVA_VERSION_BUILD 02
-ENV JAVA_PACKAGE server-jre
+&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV JAVA_VERSION_MAJOR=8 \
+    JAVA_VERSION_MINOR=73 \
+    JAVA_VERSION_BUILD=02 \
+    JAVA_PACKAGE=server-jre
 
 WORKDIR /tmp
 &lt;/code&gt;&lt;/pre&gt;
@@ -329,11 +333,12 @@ In other words: It doesn&amp;rsquo;t actually save the downloaded tarball anywhe
 &lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;FROM alpine:latest
 MAINTAINER Moritz Heiber &amp;lt;hello@heiber.im&amp;gt;
 
-ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 73
-ENV JAVA_VERSION_BUILD 02
-ENV JAVA_PACKAGE server-jre
-ENV GLIBC_PKG_VERSION 2.23-r1
+ENV JAVA_VERSION_MAJOR=8 \
+    JAVA_VERSION_MINOR=73 \
+    JAVA_VERSION_BUILD=02 \
+    JAVA_PACKAGE=server-jre \
+    GLIBC_PKG_VERSION=2.23-r1 \
+    LANG=en_US.UTF8
 
 WORKDIR /tmp
 
@@ -364,21 +369,22 @@ RUN apk add --no-cache --update-cache curl ca-certificates bash &amp;amp;&amp;am
   rm -rf /tmp/* /var/cache/apk/* &amp;amp;&amp;amp; \
   echo &#39;hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4&#39; &amp;gt;&amp;gt; /etc/nsswitch.conf
 
-ENV JAVA_HOME /jre
-ENV PATH ${PATH}:${JAVA_HOME}/bin
-ENV LANG en_US.UTF-8
+ENV JAVA_HOME=/jre
+ENV PATH=${PATH}:${JAVA_HOME}/bin
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Notice how I have merged the two &lt;code&gt;RUN&lt;/code&gt; instructions. This is mainly because it&amp;rsquo;s better to use a smaller amount of intermediary layers, especially since this is supposed to be a container everybody uses as a building block. If you want to find out more about Docker, containers, images and layers I recommend reading &lt;a href=&#34;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&#34;&gt;the official documentation on what layers are and how images are using them to their benefit&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Notice how I have merged the two &lt;code&gt;ENV&lt;/code&gt; and &lt;code&gt;RUN&lt;/code&gt; instructions. This is mainly because it&amp;rsquo;s better to use a smaller amount of intermediary layers, especially since this is supposed to be a container everybody uses as a building block. If you want to find out more about Docker, containers, images and layers I recommend reading &lt;a href=&#34;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&#34;&gt;the official documentation on what layers are and how images are using them to their benefit&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;As a rule of thumb: More layers if you want more flexibility, less layers if you want to save on size and complexity. It depends on your preferences.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;I also added a very small step at the end:&lt;/p&gt;
+&lt;p&gt;I also added another variable at the top:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV LANG en_US.UTF-8
+&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;ENV LANG=en_US.UTF-8
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This is the ensure we are running a clean environment with a defined language. Some application might expect to find these values already set, some might be setting them yourself. Obviously, your preference in language might also differ. &lt;a href=&#34;https://www.gnu.org/software/gettext/manual/html_node/Locale-Environment-Variables.html&#34;&gt;You can adjust the LANG parameter to your liking&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Last but not least, the variables &lt;code&gt;JAVA_HOME&lt;/code&gt; and &lt;code&gt;PATH&lt;/code&gt; are adjusted according to the location of the JRE we just installed. &lt;code&gt;JAVA_HOME&lt;/code&gt; and &lt;code&gt;PATH&lt;/code&gt; have to be declared in two separate statements in this case because &lt;code&gt;PATH&lt;/code&gt; directly refers to &lt;code&gt;JAVA_HOME&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;where-did-the-cmd-instruction-go:901618bebcbe06bc74bd8d987e29f817&#34;&gt;Where did the CMD instruction go?&lt;/h2&gt;
 
@@ -396,32 +402,22 @@ ENV LANG en_US.UTF-8
 &lt;p&gt;Finally, we&amp;rsquo;ve reached a point where we can build our image:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker build -t my-java-base-image .
-Sending build context to Docker daemon 73.22 kB
+Sending build context to Docker daemon 60.42 kB
 Step 1 : FROM alpine:latest
  ---&amp;gt; 2314ad3eeb90
 Step 2 : MAINTAINER Moritz Heiber &amp;lt;hello@heiber.im&amp;gt;
  ---&amp;gt; Using cache
  ---&amp;gt; 93cc2bc0bd60
-Step 3 : ENV JAVA_VERSION_MAJOR 8
- ---&amp;gt; Using cache
- ---&amp;gt; d03512eacddf
-Step 4 : ENV JAVA_VERSION_MINOR 73
- ---&amp;gt; Using cache
- ---&amp;gt; 54c6189a0f46
-Step 5 : ENV JAVA_VERSION_BUILD 02
- ---&amp;gt; Using cache
- ---&amp;gt; 7855744f0734
-Step 6 : ENV JAVA_PACKAGE server-jre
- ---&amp;gt; Using cache
- ---&amp;gt; 50a1e80d4651
-Step 7 : ENV GLIBC_PKG_VERSION 2.23-r1
- ---&amp;gt; Using cache
- ---&amp;gt; 45bad979e8f8
-Step 8 : WORKDIR /tmp
- ---&amp;gt; Using cache
- ---&amp;gt; 8cf31e85bb15
-Step 9 : RUN apk add --no-cache --update-cache curl ca-certificates bash &amp;amp;&amp;amp;   curl -Lo /etc/apk/keys/andyshinn.rsa.pub &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub&amp;quot; &amp;amp;&amp;amp;   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk&amp;quot; &amp;amp;&amp;amp;   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk&amp;quot; &amp;amp;&amp;amp;   curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk&amp;quot; &amp;amp;&amp;amp;   apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk &amp;amp;&amp;amp;   curl -jksSLH &amp;quot;Cookie: oraclelicense=accept-securebackup-cookie&amp;quot;   &amp;quot;http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz&amp;quot; | gunzip -c - | tar -xf - &amp;amp;&amp;amp;   apk del curl ca-certificates &amp;amp;&amp;amp;   mv jdk1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR}/jre /jre &amp;amp;&amp;amp;   rm /jre/bin/jjs &amp;amp;&amp;amp;   rm /jre/bin/keytool &amp;amp;&amp;amp;   rm /jre/bin/orbd &amp;amp;&amp;amp;   rm /jre/bin/pack200 &amp;amp;&amp;amp;   rm /jre/bin/policytool &amp;amp;&amp;amp;   rm /jre/bin/rmid &amp;amp;&amp;amp;   rm /jre/bin/rmiregistry &amp;amp;&amp;amp;   rm /jre/bin/servertool &amp;amp;&amp;amp;   rm /jre/bin/tnameserv &amp;amp;&amp;amp;   rm /jre/bin/unpack200 &amp;amp;&amp;amp;   rm /jre/lib/ext/nashorn.jar &amp;amp;&amp;amp;   rm /jre/lib/jfr.jar &amp;amp;&amp;amp;   rm -rf /jre/lib/jfr &amp;amp;&amp;amp;   rm -rf /jre/lib/oblique-fonts &amp;amp;&amp;amp;   rm -rf /tmp/* /var/cache/apk/* &amp;amp;&amp;amp;   echo &#39;hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4&#39; &amp;gt;&amp;gt; /etc/nsswitch.conf
- ---&amp;gt; Running in 8aefe40205ee
+Step 3 : ENV JAVA_VERSION_MAJOR 8 JAVA_VERSION_MINOR 73 JAVA_VERSION_BUILD 02 JAVA_PACKAGE server-jre GLIBC_PKG_VERSION 2.23-r1 LANG en_US.UTF8
+ ---&amp;gt; Running in 3f0ffeaeca78
+ ---&amp;gt; 1dcfd34b0f1a
+Removing intermediate container 3f0ffeaeca78
+Step 4 : WORKDIR /tmp
+ ---&amp;gt; Running in 5c81aa8921e0
+ ---&amp;gt; 9904a9a1a0af
+Removing intermediate container 5c81aa8921e0
+Step 5 : RUN apk add --no-cache --update-cache curl ca-certificates bash &amp;amp;&amp;amp;   curl -Lo /etc/apk/keys/andyshinn.rsa.pub &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/andyshinn.rsa.pub&amp;quot; &amp;amp;&amp;amp;   curl -Lo glibc-${GLIBC_PKG_VERSION}.apk &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-${GLIBC_PKG_VERSION}.apk&amp;quot; &amp;amp;&amp;amp;   curl -Lo glibc-bin-${GLIBC_PKG_VERSION}.apk &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-bin-${GLIBC_PKG_VERSION}.apk&amp;quot; &amp;amp;&amp;amp;   curl -Lo glibc-i18n-${GLIBC_PKG_VERSION}.apk &amp;quot;https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_PKG_VERSION}/glibc-i18n-${GLIBC_PKG_VERSION}.apk&amp;quot; &amp;amp;&amp;amp;   apk add glibc-${GLIBC_PKG_VERSION}.apk glibc-bin-${GLIBC_PKG_VERSION}.apk glibc-i18n-${GLIBC_PKG_VERSION}.apk &amp;amp;&amp;amp;   curl -jksSLH &amp;quot;Cookie: oraclelicense=accept-securebackup-cookie&amp;quot;   &amp;quot;http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz&amp;quot; | gunzip -c - | tar -xf - &amp;amp;&amp;amp;   apk del curl ca-certificates &amp;amp;&amp;amp;   mv jdk1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR}/jre /jre &amp;amp;&amp;amp;   rm /jre/bin/jjs &amp;amp;&amp;amp;   rm /jre/bin/keytool &amp;amp;&amp;amp;   rm /jre/bin/orbd &amp;amp;&amp;amp;   rm /jre/bin/pack200 &amp;amp;&amp;amp;   rm /jre/bin/policytool &amp;amp;&amp;amp;   rm /jre/bin/rmid &amp;amp;&amp;amp;   rm /jre/bin/rmiregistry &amp;amp;&amp;amp;   rm /jre/bin/servertool &amp;amp;&amp;amp;   rm /jre/bin/tnameserv &amp;amp;&amp;amp;   rm /jre/bin/unpack200 &amp;amp;&amp;amp;   rm /jre/lib/ext/nashorn.jar &amp;amp;&amp;amp;   rm /jre/lib/jfr.jar &amp;amp;&amp;amp;   rm -rf /jre/lib/jfr &amp;amp;&amp;amp;   rm -rf /jre/lib/oblique-fonts &amp;amp;&amp;amp;   rm -rf /tmp/* /var/cache/apk/* &amp;amp;&amp;amp;   echo &#39;hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4&#39; &amp;gt;&amp;gt; /etc/nsswitch.conf
+ ---&amp;gt; Running in ab3222998627
 fetch http://dl-4.alpinelinux.org/alpine/v3.3/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-4.alpinelinux.org/alpine/v3.3/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-4.alpinelinux.org/alpine/v3.3/community/x86_64/APKINDEX.tar.gz
@@ -441,20 +437,20 @@ Executing ca-certificates-20160104-r2.trigger
 OK: 15 MiB in 20 packages
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   594    0   594    0     0   1083      0 --:--:-- --:--:-- --:--:--  1157
-100   451  100   451    0     0    406      0  0:00:01  0:00:01 --:--:--  1383
+100   594    0   594    0     0   1135      0 --:--:-- --:--:-- --:--:--  1200
+100   451  100   451    0     0    417      0  0:00:01  0:00:01 --:--:--   417
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   609    0   609    0     0    354      0 --:--:--  0:00:01 --:--:--   361
-100 2874k  100 2874k    0     0   434k      0  0:00:06  0:00:06 --:--:--  712k
+100   609    0   609    0     0   1246      0 --:--:-- --:--:-- --:--:--  1247
+100 2874k  100 2874k    0     0   777k      0  0:00:03  0:00:03 --:--:-- 1211k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   613    0   613    0     0   1124      0 --:--:-- --:--:-- --:--:--  1199
-100 1710k  100 1710k    0     0   656k      0  0:00:02  0:00:02 --:--:-- 1173k
+100   613    0   613    0     0   1286      0 --:--:-- --:--:-- --:--:--  1293
+100 1710k  100 1710k    0     0   515k      0  0:00:03  0:00:03 --:--:--  649k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   614    0   614    0     0   1095      0 --:--:-- --:--:-- --:--:--  1167
-100 7154k  100 7154k    0     0   884k      0  0:00:08  0:00:08 --:--:-- 1201k
+100   614    0   614    0     0   1162      0 --:--:-- --:--:-- --:--:--  1178
+100 7154k  100 7154k    0     0  1314k      0  0:00:05  0:00:05 --:--:-- 1736k
 (1/4) Installing glibc (2.23-r1)
 (2/4) Installing libgcc (5.3.0-r0)
 (3/4) Installing glibc-bin (2.23-r1)
@@ -468,21 +464,17 @@ OK: 31 MiB in 24 packages
 Executing busybox-1.24.1-r7.trigger
 Executing glibc-bin-2.23-r1.trigger
 OK: 29 MiB in 20 packages
- ---&amp;gt; 2173d0983806
-Removing intermediate container 8aefe40205ee
-Step 10 : ENV JAVA_HOME /jre
- ---&amp;gt; Running in 12adf0602e79
- ---&amp;gt; 900d42b31a9e
-Removing intermediate container 12adf0602e79
-Step 11 : ENV PATH ${PATH}:${JAVA_HOME}/bin
- ---&amp;gt; Running in 4cd4171d6bef
- ---&amp;gt; a552d8cc48d8
-Removing intermediate container 4cd4171d6bef
-Step 12 : ENV LANG en_US.UTF-8
- ---&amp;gt; Running in 9bdd2a17dc10
- ---&amp;gt; 334ee3938de7
-Removing intermediate container 9bdd2a17dc10
-Successfully built 334ee3938de7
+ ---&amp;gt; 51992d8f231c
+Removing intermediate container ab3222998627
+Step 6 : ENV JAVA_HOME /jre
+ ---&amp;gt; Running in 0a98b36a6e37
+ ---&amp;gt; 5af4d87e3790
+Removing intermediate container 0a98b36a6e37
+Step 7 : ENV PATH ${PATH}:${JAVA_HOME}/bin
+ ---&amp;gt; Running in 54d0dfb04f98
+ ---&amp;gt; 493399ac9ca6
+Removing intermediate container 54d0dfb04f98
+Successfully built 493399ac9ca6
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Woohoo! It finished successfully. To make sure it actually did what we asked for, let&amp;rsquo;s try running &lt;code&gt;java&lt;/code&gt; inside the container, shall we?&lt;/p&gt;
@@ -536,6 +528,17 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.73-b02, mixed mode)
 &lt;h2 id=&#34;feedback:901618bebcbe06bc74bd8d987e29f817&#34;&gt;Feedback&lt;/h2&gt;
 
 &lt;p&gt;I hope you enjoyed this article. Should you have comments, questions or suggestions (or even constructive criticism ) let me know on &lt;a href=&#34;https://twitter.com/moritzheiber&#34;&gt;Twitter&lt;/a&gt; or &lt;a href=&#34;mailto:hello@heiber.im&#34;&gt;write me an email&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;updates:901618bebcbe06bc74bd8d987e29f817&#34;&gt;Updates&lt;/h2&gt;
+
+&lt;h3 id=&#34;2016-02-25:901618bebcbe06bc74bd8d987e29f817&#34;&gt;2016-02-25&lt;/h3&gt;
+
+&lt;p&gt;I received this helpful comment on Twitter yesterday:&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;&lt;a href=&#34;https://twitter.com/docker&#34;&gt;@docker&lt;/a&gt; &lt;a href=&#34;https://twitter.com/moritzheiber&#34;&gt;@moritzheiber&lt;/a&gt; great post and i have one addition: multiple variables in 1 ENV would have saved you 3 layers:&lt;br&gt;&lt;br&gt;ENV A=1 \&lt;br&gt;B=2 \&lt;br&gt;C=3&lt;/p&gt;&amp;mdash; Jan (@KekSfabrik_EU) &lt;a href=&#34;https://twitter.com/KekSfabrik_EU/status/702533088505683968&#34;&gt;February 24, 2016&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;I therefore went ahead and adjusted the &lt;code&gt;Dockerfile&lt;/code&gt;, the references and the explanations accordingly. &lt;strong&gt;Thank you, Jan!&lt;/strong&gt;&lt;/p&gt;
 </description>
     </item>
     
