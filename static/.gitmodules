@@ -1,0 +1,3 @@
+[submodule "presentations/devops-at-thoughtworks-presentation"]
+	path = presentations/devops-at-thoughtworks-presentation
+	url = https://github.com/moritzheiber/devops-at-thoughtworks-presentation
