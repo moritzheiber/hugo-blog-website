@@ -18,11 +18,12 @@ I love [Ruby](http://www.ruby-lang.org), [Rust](http://www.rust-lang.org), [Go](
 
 I like to give talks on DevOps, system operations and shiny things:
 
+* [DevOps at ThoughtWorks](https://github.com/moritzheiber/devops-at-thoughtworks-presentation)
 * [I don't care what you did last summer - Continuous Delivery and Immutable Servers](https://github.com/moritzheiber/i-dont-care-for-what-you-did-last-summer)
 * [Log the things! (German)](https://github.com/moritzheiber/codetalks-2014-fluentd-presentation)
 
 ## Stuff I use
 
 * [i3wm](http://www.i3wm.org): Exceptionally simple and versatile [tiling window manager](http://en.wikipedia.org/wiki/Tiling_window_manager). Beware: Once you use it every other way of interacting with a graphical user interfaces will seem inferior.
-* [vim](http://vim.org): _The_ texteditor for pretty much anything. I might put up my `vimrc` at some point in time.
+* [nvim](http://nvim.org): _The_ texteditor for pretty much anything. I might put up my `init.vim` at some point in time.
 * [stringer](https://github.com/swanson/stringer): Extremely easy to set up (literally takes you 10 minutes to get it running with Heroku. At no cost.) Rails rss feed aggregator. Has a beautiful web interface and implements the [Fever](http://feedafever.com) API specifications (for using [Reeder](http://reederapp.com) or [Press](http://twentyfivesquares.com/press/)).
