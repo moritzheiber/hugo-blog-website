@@ -1,4 +1,4 @@
-baseurl = "http://heiber.im"
+baseurl = "https://heiber.im"
 languageCode = "en-us"
 title = "musings about silly things"
 canonifyurls = true
