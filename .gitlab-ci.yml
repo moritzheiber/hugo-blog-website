@@ -1,6 +1,9 @@
 image: moritzheiber/docker-hugo
 
 pages:
+  before_script:
+  - git submodule sync --recursive
+  - git submodule update --init --recursive
   script:
   - hugo
   artifacts:
@@ -8,6 +11,3 @@ pages:
     - public
   only:
   - master
-
-variables:
-  GIT_SUBMODULE_STRATEGY: normal
