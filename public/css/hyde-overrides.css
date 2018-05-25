@@ -1,0 +1,30 @@
+/*
+ * Tweaks and overrides to hyde.css
+ */
+
+.sidebar-about h1 {
+  color: #fff;
+  margin-top: 0;
+  font-family: "Abril Fatface", serif;
+  font-size: 2.5rem;
+}
+
+.sidebar-nav {
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+figure.about {
+  /* margin: 0; */
+  float:left;
+}
+
+.about img {
+  max-width:200px;
+}
+
+.about h4 {
+  font-size: x-small;
+  font-weight: normal;
+}

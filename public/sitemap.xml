@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://heiber.im/post/creating-a-solid-docker-base-image/</loc>
+    <lastmod>2018-05-25T11:41:07+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/post/my_thoughts_on_the_fitbit_one/</loc>
+    <lastmod>2015-07-04T16:10:10+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/post/switching-to-hugo/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/about/</loc>
+    <lastmod>2016-11-24T22:23:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/post/dynamics-dns-with-pfsense-and-route53/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/aws/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/blog/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/devops/</loc>
+    <lastmod>2018-05-25T11:41:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/docker/</loc>
+    <lastmod>2018-05-25T11:41:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/fitbit/</loc>
+    <lastmod>2015-07-04T16:10:10+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/fitness/</loc>
+    <lastmod>2015-07-04T16:10:10+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/golang/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/java/</loc>
+    <lastmod>2018-05-25T11:41:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/pfsense/</loc>
+    <lastmod>2015-05-11T11:09:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/post/</loc>
+    <lastmod>2018-05-25T11:41:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/categories/wearables/</loc>
+    <lastmod>2015-07-04T16:10:10+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://heiber.im/</loc>
+    <lastmod>2018-05-25T11:41:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
