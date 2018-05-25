@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux -o pipefail
+set -eu -o pipefail
 
 GIT_URL="git@github.com:moritzheiber/moritzheiber.github.io.git"
 GIT_BRANCH="master"
@@ -19,7 +19,7 @@ push_git() {
 
   # Push source and build repos.
   git push -u origin master
-  git subtree push --prefix public ${GIT_URL} ${GIT_BRANCH}
+  git subtree push -f --prefix public ${GIT_URL} ${GIT_BRANCH}
 }
 
 # Make sure there are no remnants behind
