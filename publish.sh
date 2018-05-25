@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eux -o pipefail
+
 GIT_URL="git@github.com:moritzheiber/moritzheiber.github.io.git"
 GIT_BRANCH="master"
 
@@ -24,7 +26,7 @@ push_git() {
 rm -rf public/*
 
 # Build the project.
-hugo -t hyde-x
+hugo
 
 # Making sure we have a CNAME set
 # echo "heiber.im" > public/CNAME
