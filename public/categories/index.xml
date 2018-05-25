@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on musings about silly things</title>
-    <link>http://heiber.im/categories/</link>
+    <link>https://heiber.im/categories/</link>
     <description>Recent content in Categories on musings about silly things</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,96 +10,96 @@
     <webMaster>hello@heiber.im (Moritz Heiber)</webMaster>
     <lastBuildDate>Fri, 28 Feb 2014 12:17:36 +0100</lastBuildDate>
     
-	<atom:link href="http://heiber.im/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://heiber.im/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Aws</title>
-      <link>http://heiber.im/categories/aws/</link>
+      <link>https://heiber.im/categories/aws/</link>
       <pubDate>Fri, 28 Feb 2014 12:17:36 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/aws/</guid>
+      <guid>https://heiber.im/categories/aws/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Blog</title>
-      <link>http://heiber.im/categories/blog/</link>
+      <link>https://heiber.im/categories/blog/</link>
       <pubDate>Sun, 10 May 2015 20:12:10 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/blog/</guid>
+      <guid>https://heiber.im/categories/blog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Devops</title>
-      <link>http://heiber.im/categories/devops/</link>
+      <link>https://heiber.im/categories/devops/</link>
       <pubDate>Tue, 23 Feb 2016 18:24:05 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/devops/</guid>
+      <guid>https://heiber.im/categories/devops/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Docker</title>
-      <link>http://heiber.im/categories/docker/</link>
+      <link>https://heiber.im/categories/docker/</link>
       <pubDate>Tue, 23 Feb 2016 18:24:05 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/docker/</guid>
+      <guid>https://heiber.im/categories/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Fitbit</title>
-      <link>http://heiber.im/categories/fitbit/</link>
+      <link>https://heiber.im/categories/fitbit/</link>
       <pubDate>Thu, 11 Jun 2015 07:55:54 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/fitbit/</guid>
+      <guid>https://heiber.im/categories/fitbit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Fitness</title>
-      <link>http://heiber.im/categories/fitness/</link>
+      <link>https://heiber.im/categories/fitness/</link>
       <pubDate>Thu, 11 Jun 2015 07:55:54 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/fitness/</guid>
+      <guid>https://heiber.im/categories/fitness/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Golang</title>
-      <link>http://heiber.im/categories/golang/</link>
+      <link>https://heiber.im/categories/golang/</link>
       <pubDate>Sun, 10 May 2015 20:12:10 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/golang/</guid>
+      <guid>https://heiber.im/categories/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Java</title>
-      <link>http://heiber.im/categories/java/</link>
+      <link>https://heiber.im/categories/java/</link>
       <pubDate>Tue, 23 Feb 2016 18:24:05 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/java/</guid>
+      <guid>https://heiber.im/categories/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Pfsense</title>
-      <link>http://heiber.im/categories/pfsense/</link>
+      <link>https://heiber.im/categories/pfsense/</link>
       <pubDate>Fri, 28 Feb 2014 12:17:36 +0100</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/pfsense/</guid>
+      <guid>https://heiber.im/categories/pfsense/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Wearables</title>
-      <link>http://heiber.im/categories/wearables/</link>
+      <link>https://heiber.im/categories/wearables/</link>
       <pubDate>Thu, 11 Jun 2015 07:55:54 +0200</pubDate>
       <author>hello@heiber.im (Moritz Heiber)</author>
-      <guid>http://heiber.im/categories/wearables/</guid>
+      <guid>https://heiber.im/categories/wearables/</guid>
       <description></description>
     </item>
     
