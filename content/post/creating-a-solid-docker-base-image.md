@@ -6,8 +6,6 @@ keywords = ["alpine linux", "docker", "security"]
 title = "Creating a good, secure Docker base image"
 
 +++
-_Last updated: [2016-02-25]({{< relref "#updates" >}})_
-
 **tl;dr**: Build small, efficient images, use [Alpine Linux](https://www.alpinelinux.org/) as your foundation, build from there, add glibc if necessary, remove static/generated files and documentation, never run more than one process per container and use verified, trustworthy sources.
 
 # The premise
