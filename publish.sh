@@ -29,7 +29,7 @@ rm -rf public/*
 hugo
 
 # Making sure we have a CNAME set
-# echo "heiber.im" > public/CNAME
+echo "heiber.im" > public/CNAME
 
 # Add changes to git.
 git add --all
