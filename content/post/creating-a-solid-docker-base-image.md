@@ -53,7 +53,7 @@ To sum up our requirements to run an example Java application:
 
 # Enter Alpine Linux
 
-[Alpine Linux](https://www.alpinelinux.org/) has been gaining a lot of support as a distribution recently, mainly because it [packs quite a punch in terms of selection of pre-build, signed and trusted packages](https://pkgs.alpinelinux.org/packages) while only clocking a very impressive 2MB (!) in size when attached to a Docker container. To put this into perspective, while writing this post, the latest base images (already stripped down to their very code functionality) for other distributions maintain the following sizing:
+[Alpine Linux](https://www.alpinelinux.org/) has been gaining a lot of support as a distribution recently, mainly because it [packs quite a punch in terms of selection of pre-build, signed and trusted packages](https://pkgs.alpinelinux.org/packages) while only clocking a very impressive 2MB (!) in size when attached to a Docker container. To put this into perspective, while writing this post, the latest base images (already stripped down to their very core functionality) for other distributions maintain the following sizing:
 
 - `ubuntu:latest`: 66MB (already fairly slim compared to, e.g. earlier images which sometimes carried around 600MB+ with them)
 - `debian:latest`: 55MB (same as above, quite alright considering they started with 200MB+)
