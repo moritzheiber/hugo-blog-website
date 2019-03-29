@@ -3,8 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://heiber.im/post/git-client-configurations-for-multiple-identities/</loc>
+    <lastmod>2019-03-29T13:11:52+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://heiber.im/post/creating-a-solid-docker-base-image/</loc>
-    <lastmod>2018-05-25T11:47:23+02:00</lastmod>
+    <lastmod>2019-01-27T19:01:30+05:30</lastmod>
   </url>
   
   <url>
@@ -47,13 +52,13 @@
   
   <url>
     <loc>https://heiber.im/categories/devops/</loc>
-    <lastmod>2018-05-25T11:47:23+02:00</lastmod>
+    <lastmod>2019-01-27T19:01:30+05:30</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://heiber.im/categories/docker/</loc>
-    <lastmod>2018-05-25T11:47:23+02:00</lastmod>
+    <lastmod>2019-01-27T19:01:30+05:30</lastmod>
     <priority>0</priority>
   </url>
   
@@ -70,6 +75,12 @@
   </url>
   
   <url>
+    <loc>https://heiber.im/categories/git/</loc>
+    <lastmod>2019-03-29T13:11:52+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://heiber.im/categories/golang/</loc>
     <lastmod>2018-05-25T11:47:23+02:00</lastmod>
     <priority>0</priority>
@@ -77,7 +88,7 @@
   
   <url>
     <loc>https://heiber.im/categories/java/</loc>
-    <lastmod>2018-05-25T11:47:23+02:00</lastmod>
+    <lastmod>2019-01-27T19:01:30+05:30</lastmod>
     <priority>0</priority>
   </url>
   
@@ -89,7 +100,7 @@
   
   <url>
     <loc>https://heiber.im/post/</loc>
-    <lastmod>2018-05-25T11:47:23+02:00</lastmod>
+    <lastmod>2019-03-29T13:11:52+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -101,7 +112,7 @@
   
   <url>
     <loc>https://heiber.im/</loc>
-    <lastmod>2018-05-25T11:47:23+02:00</lastmod>
+    <lastmod>2019-03-29T13:11:52+01:00</lastmod>
     <priority>0</priority>
   </url>
   

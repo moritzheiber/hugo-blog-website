@@ -2,6 +2,10 @@
  * Tweaks and overrides to hyde.css
  */
 
+.content {
+  max-width: 45rem;
+}
+
 .sidebar-about h1 {
   color: #fff;
   margin-top: 0;

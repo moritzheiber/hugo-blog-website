@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Git client configurations for multiple identities &middot; Moritz Heiber</title>
+
+  
+  <link rel="stylesheet" href="https://heiber.im/css/poole.css">
+  <link rel="stylesheet" href="https://heiber.im/css/hyde.css">
+  <link rel="stylesheet" href="https://heiber.im/css/poole-overrides.css">
+  <link rel="stylesheet" href="https://heiber.im/css/hyde-overrides.css">
+  <link rel="stylesheet" href="https://heiber.im/css/hyde-x.css">
+  <link rel="stylesheet" href="https://heiber.im/css/highlight/monokai-sublime.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.0/css/fork-awesome.min.css" integrity="sha256-sX8HLspqYoXVPetzJRE4wPhIhDBu2NB0kYpufzkQSms=" crossorigin="anonymous">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://heiber.im/touch-icon-144-precomposed.png">
+  <link href="https://heiber.im/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Dynamically adjusting your Git configuration based upon different environments used to be a challenge for me until I found a very convenient solution, natively supported by Git and its configuration syntax. Take a journey with me towards discovering conditional configuration includes!">
+  <meta name="keywords" content="git,configuration">
+  
+</head>
+<body>
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+        <img src="https://www.gravatar.com/avatar/d490fa92eebb2f8a3dd7bb39cca4b632?s=200"
+             alt="gravatar" title="Moritz Heiber">
+      
+      <h1>Moritz Heiber</h1>
+      <p class="lead">#ruby #rust #go #devops #diversity</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="https://heiber.im/">Home</a></li>
+      
+      <li class="sidebar-nav-item"><a href="https://heiber.im/about/">About me</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a rel="me" href="https://github.com/moritzheiber"><i class="fa fa-github-square fa-3x"></i></a>
+      <a rel="me" href="https://mastodon.social/@moritzheiber"><i class="fa fa-mastodon-square fa-3x"></i></a>
+      
+      
+      
+      
+      
+      <a rel="me" ref="https://twitter.com/moritzheiber"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      <a href="https://heiber.im/index.xml" type="application/rss+xml"><i class="fa fa-rss-square fa-3x"></i></a>
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2014 - 2019<br />
+<a href="http://creativecommons.org/licenses/by/4.0/legalcode">Licensed under CC-by-4.0</a>
+
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1 class="post-title">Git client configurations for multiple identities</h1>
+    <span class="post-date">Mar 29, 2019 &middot; 9 minute read
+    
+    <br/>
+    <a class="label" href="https://heiber.im/categories/git">git</a>
+    </span>
+    
+
+<h2 id="the-bane-of-maintenance">The bane of maintenance</h2>
+
+<p>If you&rsquo;re like me, you&rsquo;re using your computer not just for work but also for your own personal projects and learning efforts. After all, why would you buy a completely separate machine just for the sake of maintaining two separate working environments, keeping them up-to-date and running while also constantly forgetting about where exactly you put that one file</p>
+
+<p>.. was it your personal laptop?<br />
+Or was it on your machine dedicated for work .. ?</p>
+
+<p>The way I&rsquo;m <a href="https://github.com/moritzheiber/laptop-provisioning">provisioning my laptop(s)</a> definitely makes it easier to at least keep a consistent state across working environments, but the issue still remains that there&rsquo;s bound to be a time where you&rsquo;ll just be fed up with the overhead of having to maintain two separate environments for anything you do. The similarities are just too numerous.</p>
+
+<h2 id="using-a-single-machine-for-work-and-play">Using a single machine for work and play</h2>
+
+<p>I seldom meet other colleagues or business acquaintances who aren&rsquo;t using <a href="https://git-scm.org">Git</a> for version control. Some are also using it for purposes beyond just maintaining a consistent code state across boundaries, for things like <a href="https://nvie.com/posts/a-successful-git-branching-model/">agile software collaboration</a>, or <a href="https://bitband.atlassian.net/wiki/spaces/BD/pages/248840196/Git+Jira+Integration#GitJiraIntegration-Gitcommands">project management</a>, personally I prefer to stick to its original intended goal, which is to make it easy for developers to share and merge code state effortlessly in distributed environments.</p>
+
+<p>While Git certainly isn&rsquo;t a tool which is mastered overnight, it lends itself to day-to-day activities fairly easily, especially if you&rsquo;re already familiar with other alternatives such as <a href="https://en.wikipedia.org/wiki/Team_Foundation_Server">TFS</a>, <a href="https://en.wikipedia.org/wiki/Concurrent_Versions_System">CVS</a> or <a href="https://en.wikipedia.org/wiki/Apache_Subversion">Subversion</a>. It can also be configured with <a href="https://git-scm.com/docs/git-config#_variables">a plethora of options</a>, most of which I will not be mentioning or introducing in the article. However, a few I find incredibly useful, especially when having to use separate &ldquo;<a href="https://en.wikipedia.org/wiki/Persona">personas</a>&rdquo; for personal projects and for work.</p>
+
+<h3 id="the-git-configuration-conundrum">The Git configuration conundrum</h3>
+
+<p>Git is globally configured via a single configuration file inside your home directory, called <code>.gitconfig</code>. Any option you either specify by running <code>git config --global &lt;option&gt; &lt;value&gt;</code>, or by editing the file directly, will get picked up when you&rsquo;re using Git anywhere on your computer. You may override this behavior on a repository-by-repository basis by just skipping the <code>--global</code> parameter and executing the relevant configuration command inside the relevant repository.</p>
+
+<p>Mind you though, these changes only carry a local effect and are not attached to the repository. Should you ever wipe the relevant repository&rsquo;s source code from your computer and clone a fresh copy the instructions you carefully set before will be gone.</p>
+
+<p>And therein lies the dilemma.</p>
+
+<h3 id="identity-crisis">Identity crisis</h3>
+
+<p>Because locally specifying which configuration, identity and other options you want to use might sound appealing, but definitely not if you&rsquo;d have to do it over and over again, for each and every repository diverging in purpose from your main, &ldquo;global&rdquo; configuration. Chances are, you&rsquo;ll most likely forget over time which repository you added different settings to before, and which are still using your global configuration settings. And then you&rsquo;ll end up with commit messages specifying the wrong email address, username, GitHub handle or even GPG signature.</p>
+
+<p>This can have serious implications for your workflow. Signed commits aren&rsquo;t exactly a new feature of Git (they&rsquo;re actually rather old) and Git repository hosting companies like <a href="https://github.com">GitHub</a> and <a href="https://gitlab.com">GitLab</a> have introduced features like <a href="https://help.github.com/en/articles/about-required-commit-signing">requiring signed commits with verified signatures for protected branches</a>. It does increase your level of assurance since you can be certain a specific commit has actually been submitted by the person the contributor claims to be (if you trust the signing process). Therefore it&rsquo;s important to use the right combination of username, email address and GPG signature within your Git repositories.</p>
+
+<h3 id="there-s-more-than-just-identity">There&rsquo;s more than just identity</h3>
+
+<p>But there&rsquo;s more! What if you only wanted to sign your commits for a certain work package, inside a particular directory, but with a large number of repositories? What about other options you have set globally but wanted to have changed to either comply with localized requirements or to make your collaboration easier on certain projects?</p>
+
+<p>You&rsquo;ve seen the list of options you can configure with <code>git config</code>, I&rsquo;m sure there&rsquo;ll be a few you would rather have set differently depending on your context.</p>
+
+<p>This is where <strong>conditional Git configuration includes</strong> come into play.</p>
+
+<h2 id="context-matters">Context matters</h2>
+
+<p>Git allows for you to include specific configuration files depending on directory structures, i.e. if you have certain contexts under which you are operating (e.g. &ldquo;Project X&rdquo;, &ldquo;Project Y&rdquo;, &ldquo;client A&rdquo; or &ldquo;client B&rdquo;), and you&rsquo;re keeping separate working directories for all of their source code tracked in Git, you may include specific configuration files which apply to all of the top-level repositories and subsequent levels under said directory structure!</p>
+
+<p>As an example, here&rsquo;s my current, global <code>.gitconfig</code> file:</p>
+
+<pre><code class="language-toml">[user]
+  email = hello@heiber.im
+  name = Moritz Heiber
+  signingkey = 2F3A1C05
+[push]
+  default = simple
+[github]
+  user = moritzheiber
+[credential]
+  helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+[includeIf &quot;gitdir:~/Code/thoughtworks/&quot;]
+  path = ~/Code/thoughtworks/gitconfig
+[log]
+  showSignature = true
+[commit]
+  gpgsign = true
+[branch]
+  sort = committerdate
+</code></pre>
+
+<p>Let&rsquo;s pick it apart!</p>
+
+<h3 id="user-context">User context</h3>
+
+<p>The first part of the file references my &ldquo;global&rdquo; identity I&rsquo;d like to use for anything Git that&rsquo;s no specific to any of the work I&rsquo;m doing professionally:</p>
+
+<pre><code class="language-toml">[user]
+  email = hello@heiber.im
+  name = Moritz Heiber
+  signingkey = 2F3A1C05
+</code></pre>
+
+<p>As you can see, it&rsquo;s clearly showing that I am who you might think I am (&ldquo;Moritz Heiber&rdquo;), and that the email address I&rsquo;d prefer using for my commits is <code>hello@heiber.im</code>. It also specifies the short handle for a GPG key I will want to use for signing my commit messages, should I decide to do it.</p>
+
+<p>Now, Git is fairly good at guessing which key to use, based upon my email address or even user handle, but specifying it explicitly does away with any ambiguity and reassures me that I&rsquo;ll always be using the &ldquo;right&rdquo; key associated with this particular identity.</p>
+
+<h3 id="push-settings">Push settings</h3>
+
+<p>This snippet defines the type of push <code>git push</code> is using by default:</p>
+
+<pre><code class="language-toml">[push]
+  default = simple
+</code></pre>
+
+<p>It became the default since Git 2.0, but I&rsquo;ve been keeping it in my configuration to, again, reduce ambiguity. There are <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault">a lot of other options you can potentially choose from</a>, and you should make up your own mind which way you want to go.</p>
+
+<h3 id="github-handle">GitHub handle</h3>
+
+<pre><code class="language-toml">[github]
+  user = moritzheiber
+</code></pre>
+
+<p>This is a non-standard way of specifying your GitHub username, and it&rsquo;s used by some tooling I&rsquo;m currently using for some projects.</p>
+
+<h3 id="credential-helper">Credential helper</h3>
+
+<pre><code class="language-toml">[credential]
+  helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+</code></pre>
+
+<p>Not everyone seems to know about credentials helpers and their usefulness. Personally, I&rsquo;ve been defaulting to HTTP-based endpoints for repositories for quite a while now, because it&rsquo;s faster and doesn&rsquo;t rely on the exchange of a key pair to work correctly. There&rsquo;s <a href="https://help.github.com/en/articles/caching-your-github-password-in-git">convenient documentation available for all major operating systems on how to set up a credential helper for your local working environment</a>, and at least for me it has proven to be invaluable, especially for repositories that do not allow for SSH access (because they&rsquo;re hidden behind a firewall or a proxy server).</p>
+
+<p>No more entering your username and password over and over again!</p>
+
+<h3 id="showing-signatures-in-logs">Showing signatures in logs</h3>
+
+<p>By default, <code>git log</code> does not show whether or not a certain commit has been signed by a verified entity. In fact, it&rsquo;ll be completely lost on you whether or not it is signed at all!</p>
+
+<p>The following snippet changes that:</p>
+
+<pre><code class="language-toml">[log]
+  showSignature = true
+</code></pre>
+
+<p>The output before the change:</p>
+
+<pre><code class="language-sh">commit f3a9fbb796508d30f22b63f838d9ebc47e848dfe (HEAD -&gt; master, origin/master)
+Author: Moritz Heiber &lt;hello@heiber.im&gt;
+Date:   Fri Mar 29 10:44:49 2019 +0100
+
+    Added repo for LDAC/ACC/AptX Bluetooth support (probably obsolete after 19.04)
+</code></pre>
+
+<p>and after it:</p>
+
+<pre><code class="language-sh">commit f3a9fbb796508d30f22b63f838d9ebc47e848dfe (HEAD -&gt; master, origin/master)
+gpg: Signature made Fr 29 Mär 2019 10:44:49 CET
+gpg:                using RSA key 638614C7C9374D714EA6DA41650DA6EE5526CD96
+gpg: Good signature from &quot;Moritz Heiber &lt;hello@heiber.im&gt;&quot; [ultimate]
+Primary key fingerprint: 7430 7F3F 5312 0B4C BBAC  4C28 1F77 2A09 2F3A 1C05
+     Subkey fingerprint: 6386 14C7 C937 4D71 4EA6  DA41 650D A6EE 5526 CD96
+Author: Moritz Heiber &lt;hello@heiber.im&gt;
+Date:   Fri Mar 29 10:44:49 2019 +0100
+
+    Added repo for LDAC/ACC/AptX Bluetooth support (probably obsolete after 19.04)
+</code></pre>
+
+<p>Before you never would&rsquo;ve guessed that the commit is actually signed with a valid key. How about that!</p>
+
+<h3 id="sorting-branches-in-the-overview">Sorting branches in the overview</h3>
+
+<p>How many branches do you have? Personally, I love working with <a href="https://trunkbaseddevelopment.com/">trunk-based development</a> (especially since I&rsquo;m also a huge advocate of <a href="https://en.wikipedia.org/wiki/Continuous_delivery">Continuous Delivery</a>, however, not every project is seeing eye-to-eye with this concept. You&rsquo;ll find a incredibly high amount of branches on almost every larger project, and at a glance you really wouldn&rsquo;t know which branch has actually seen activity recently .. or would you?</p>
+
+<pre><code class="language-toml">[branch]
+  sort = committerdate
+</code></pre>
+
+<p>This convenient snippet introduces <code>git branch</code> to the concept of a more useful sorting, giving you an idea which branch has seen recent commits by displaying them at the top. It&rsquo;s a personal preference, but I find it invaluable to keep up-to-date with whatever branches are still in use and which branches are stale, over time.</p>
+
+<h3 id="last-but-not-least-conditional-includes">Last but not least .. Conditional includes</h3>
+
+<p>I&rsquo;ve saved the best one for last. <a href="https://git-scm.com/docs/git-config#_conditional_includes">Conditional includes</a>.</p>
+
+<pre><code class="language-toml">[includeIf &quot;gitdir:~/Code/thoughtworks/&quot;]
+  path = ~/Code/thoughtworks/gitconfig
+</code></pre>
+
+<p>This statement basically says: &ldquo;<strong>If</strong> there is a directory named <strong><code>~/Code/thoughtworks</code></strong> and it contains a file called <strong><code>gitconfig</code></strong>, use it to <strong>override the global settings for any and all git repositories under the directory structure in <code>~/Code/thoughtworks/</code></strong>&rdquo;.</p>
+
+<p>It&rsquo;s important to mention that this only ever overrides my <strong>global</strong> settings, <strong>not the per-repository</strong> settings I may or may not have entered separately. The order of escalation is:</p>
+
+<pre><code class="language-nohighlight">Repositority Git configuration &gt; Directory Git configuration &gt; $HOME/.gitconfig
+</code></pre>
+
+<h3 id="changing-my-identity-conditionally">Changing my identity, conditionally!</h3>
+
+<p>What&rsquo;s in the file though? This!</p>
+
+<pre><code class="language-toml">[user]
+  email = mheiber@thoughtworks.com
+  name = Moritz Heiber
+  signingkey = F75C32B1
+[commit]
+  gpgsign = true
+</code></pre>
+
+<p>It simply tells Git to rather use my &ldquo;corporate&rdquo; identity (my email &ldquo;<code>mheiber@thoughtworks.com</code>&rdquo; and the matching GPG key) and to absolutely enforce commit signing, no matter what the global configuration tells it to do. I might want to decide to skip signing my commits for my personal projects, but it&rsquo;ll say mandatory for any and all projects contained in the <code>~/Code/thoughtworks/</code> directory (unless I specify a different option on a repository level).</p>
+
+<p>You could add any other Git configuration option to this file, specifically addressing concerns in and around your working environment, project regulations or compliance issues.</p>
+
+<h2 id="newly-found-flexibility">Newly found flexibility</h2>
+
+<p>I never thought to be able to solve the issues I&rsquo;ve been having with Git and its configuration so elegantly, but conditional includes really are helping me to maintain a level of flexibility for all of my work, whether it&rsquo;s personal or work-related, and it&rsquo;s a joy to work with. I have already added the <code>gitconfig</code> file to my <a href="https://github.com/moritzheiber/laptop-provisioning/commit/62ff85444abe090db3e600a09e0c98531925a319">laptop-provisioning repository</a> and I&rsquo;m also keeping the global configuration of my dotfiles stashed away separately.</p>
+
+<p>This will ensure I&rsquo;ll always be able to replicate this setup and to keep working with several different identities securely and efficiently when using Git!</p>
+
+  </div>
+  
+</div>
+
+
+
+
+<script src="https://heiber.im/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
+
