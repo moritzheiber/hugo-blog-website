@@ -12,7 +12,6 @@ enableGitInfo = true
   name = "Moritz Heiber"
   email = "hello@heiber.im"
   github = "moritzheiber"
-  twitter = "moritzheiber"
 
 [params]
   truncate = true
@@ -22,7 +21,6 @@ enableGitInfo = true
   tagline = "#ruby #rust #go #devops #diversity"
   github = "https://github.com/moritzheiber"
   mastodon = "https://mastodon.social/@moritzheiber"
-  twitter = "https://twitter.com/moritzheiber"
   gravatarhash = "d490fa92eebb2f8a3dd7bb39cca4b632"
   highlight = "monokai-sublime"
   rss = true
