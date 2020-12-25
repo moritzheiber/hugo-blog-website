@@ -60,10 +60,16 @@ url = "/about"
 weight = 2
 
 [[menu.main]]
+identifier = "media"
+name = "media"
+url = "/media"
+weight = 3
+
+[[menu.main]]
 identifier = "blog"
 name = "blog"
 url = "/posts"
-weight = 3
+weight = 4
 
 [taxonomies]
 category = "categories"
