@@ -1,29 +1,65 @@
 baseurl = "https://heiber.im"
 languageCode = "en-us"
-title = "musings about silly things"
+title = "Moritz Heiber"
 MetaDataFormat = "toml"
 canonifyurls = true
 paginate = 10
 editor = "vim"
-theme = "hyde-x"
+theme = "cactus"
 enableGitInfo = true
+copyright = "Licensed under CC-by-4.0"
 
 [author]
-  name = "Moritz Heiber"
-  email = "hello@heiber.im"
-  github = "moritzheiber"
+name = "Moritz Heiber"
+
+[markup]
+noClasses = false
+  [markup.highlight]
+  style = "monokai"
 
 [params]
-  truncate = true
-  hideReadingTime = false
-  home = "Home"
+colorTheme = "dark"
+mainSections = "posts"
+description = "Hi, I'm Moritz. My purpose in life seems to be trying to outsmart computers. I'm really bad at it most of the time. These are the artifacts I've collected along the way."
+showAllPostsOnHomePage = false
+postsOnHomePage = 5
+tagsOverview = true
+rss = true
+gravatar = "hello@heiber.im"
+show_updated = true
+showProjectsList = true
 
-  tagline = "#ruby #rust #go #devops #diversity"
-  github = "https://github.com/moritzheiber"
-  mastodon = "https://mastodon.social/@moritzheiber"
-  gravatarhash = "d490fa92eebb2f8a3dd7bb39cca4b632"
-  highlight = "monokai-sublime"
-  rss = true
+[[params.social]]
+  name = "mastodon"
+  link = "https://mastodon.social/@moritzheiber"
+[[params.social]]
+  name = "github"
+  link = "https://github.com/moritzheiber"
+[[params.social]]
+  name = "email"
+  link = "hello+web@heiber.im"
+
+[params.comments]
+enabled = false
+
+[[menu.main]]
+identifier = "home"
+name = "home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+identifier = "about"
+name = "about"
+url = "/about"
+weight = 2
+
+[[menu.main]]
+identifier = "blog"
+name = "blog"
+url = "/posts"
+weight = 3
 
 [taxonomies]
-  category = "categories"
+category = "categories"
+tags = "tags"
