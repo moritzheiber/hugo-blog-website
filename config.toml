@@ -17,6 +17,9 @@ noClasses = false
   [markup.highlight]
   style = "monokai"
 
+[minify.tdewolff.html]
+keepWhitespace = true
+
 [params]
 colorTheme = "dark"
 mainSections = "posts"
