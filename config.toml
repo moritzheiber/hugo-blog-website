@@ -32,9 +32,11 @@ showProjectsList = true
 [[params.social]]
   name = "mastodon"
   link = "https://mastodon.social/@moritzheiber"
+
 [[params.social]]
   name = "github"
   link = "https://github.com/moritzheiber"
+
 [[params.social]]
   name = "email"
   link = "hello+web@heiber.im"
