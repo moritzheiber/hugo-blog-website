@@ -1,6 +1,7 @@
 +++
 title = "Media"
 date = "2020-12-25T20:47:10+01:00"
+type = "posts"
 +++
 
 ## Your Dashboard Sucks - And How to Fix It (since 2019)
@@ -12,6 +13,12 @@ The initial event [was recorded](https://www.thoughtworks.com/event-infrastructu
 I've given this talk another time at [Geeknight ThoughtWorks](https://www.youtube.com/channel/UCf9_WLZo0W7VZ84WLlT_MqQ) in 2020, with a more elaborate Q&A at the end:
 
 {{<youtube id="fvd8ne2vhws" title="Your Dashboard Sucks" >}}
+
+## Article about Continuous Delivery, DevOps, Security and Serverless (2019; German)
+
+> DevSecOps: Automation without a threat model and an understanding of the implications is a fig leave excuse for implementing security concepts
+
+I gave [an interview for JAXenter about "DevSecOps" (a terrible portmanteau) and Continuous Delivery](https://jaxenter.de/devsecops-continuous-delivery-interview-heiber-thoughtworks-85383), and why automation isn't "the cure" for all things security.
 
 ## What is (not) DevOps (since 2017)
 A talk I've given a lot of times over the years about what DevOps is, what it isn't and what it can be. [Slides are also available](https://docs.google.com/presentation/d/1sSup9jbzK4S7vS_yJcrepGfZhgmHfIdgTw70YGW2tqQ/edit?usp=sharing).
