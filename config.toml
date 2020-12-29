@@ -22,6 +22,7 @@ keepWhitespace = true
 
 [params]
 colorTheme = "dark"
+css = ["css/custom.css"]
 mainSections = "posts"
 description = "Hi, I'm Moritz. My purpose in life seems to be trying to outsmart computers. I'm really bad at it most of the time. These are the artifacts I've collected along the way."
 showAllPostsOnHomePage = false

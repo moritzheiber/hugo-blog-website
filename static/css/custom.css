@@ -1,0 +1,53 @@
+#standalone-toc {
+  float: left;
+  clear: both;
+  overflow: auto;
+  margin-top: 1rem;
+  max-height: calc(95vh - 7rem);
+  text-align: left;
+}
+
+#standalone-toc li::marker {
+  content: "";
+}
+
+#standalone-toc a:hover {
+  color: #d480aa;
+}
+
+#standalone-toc ul {
+  padding-left: 0;
+}
+
+#standalone-toc nav > ul > li {
+  color: #c9cacc;
+  font-size: 0.8rem;
+}
+#standalone-toc nav > ul > li:before {
+  color: #2bbc8a;
+  content: "#";
+  margin-right: 8px;
+}
+#standalone-toc nav > ul > li > ul > li {
+  color: #666;
+  font-size: 0.7rem;
+}
+#standalone-toc nav > ul > li > ul > li:before {
+  color: #2bbc8a;
+  content: "·";
+  font-weight: bold;
+  margin-right: 3px;
+}
+#standalone-toc nav > ul > li > ul > li > ul > li {
+  color: #525252;
+  font-size: 0.4rem;
+}
+#standalone-toc .toc-level-5 {
+  display: none;
+}
+#standalone-toc .toc-level-6 {
+  display: none;
+}
+#standalone-toc .toc-number {
+  display: none;
+}

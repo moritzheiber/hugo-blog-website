@@ -1,8 +1,11 @@
 +++
 title = "Media"
 date = "2020-12-25T20:47:10+01:00"
-type = "posts"
 +++
+
+This is a collection of interesting articles, interviews and videos connected to my work and some of my projects.
+
+{{< tableofcontent >}}
 
 ## Your Dashboard Sucks - And How to Fix It (since 2019)
 
