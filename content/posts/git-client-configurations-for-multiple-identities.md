@@ -1,9 +1,9 @@
 +++
-title = "Git client configurations for multiple identities"
-date = "2019-03-29T13:11:52+01:00"
-categories = ["git"]
-tags = ["git", "configuration"]
 aliases = ["/post/git-client-configurations-for-multiple-identities"]
+categories = ["git"]
+date = "2019-03-29T13:11:52+01:00"
+tags = ["git", "configuration"]
+title = "Git client configurations for multiple identities"
 
 +++
 

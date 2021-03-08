@@ -1,10 +1,10 @@
 +++
+aliases = ["/post/dynamics-dns-with-pfsense-and-route53"]
+categories = ["pfsense", "aws"]
 date = "2014-02-28T12:17:36+01:00"
 draft = false
-title = "Dynamics DNS with pfSense and Route53"
-categories = ["pfsense", "aws"]
 tags = ["aws", "dns", "route53", "pfsense"]
-aliases = ["/post/dynamics-dns-with-pfsense-and-route53"]
+title = "Dynamics DNS with pfSense and Route53"
 
 +++
 

@@ -1,8 +1,9 @@
----
-title: "Experiences of an N26 Early Adopter"
-date: 2018-10-22T16:06:52+02:00
-draft: true
----
++++
+date = "2018-10-22T16:06:52+02:00"
+draft = true
+title = "Experiences of an N26 Early Adopter"
+
++++
 # Introduction
 When I scour my email I can find the initial email I received from N26 (then still NUMBER26) in late March of 2015. That's when I, as a notorious early adopter, registered with their waiting list (yes, they had an initial waiting list for people to be on-boarded onto their new service), eagerly awaiting to be admitted entry to what was then rumored to become an actual alternative to the established banking behemoths. The excitement in the Berlin start-up scene, I remember, was palpable, because, at least for Germany, no other company had ever really taken on what many perceived as unthinkable: challenge the established money industrialists to provide a service that's fully designed for a modern, 21st century banking experience, including integration for personal mobile devices and all the comfort and commodities customers were already used to from their regular providers.
 

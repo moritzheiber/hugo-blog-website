@@ -1,7 +1,7 @@
 baseurl = "https://heiber.im"
 languageCode = "en-us"
 title = "Moritz Heiber"
-MetaDataFormat = "toml"
+metaDataFormat = "toml"
 canonifyurls = true
 paginate = 10
 editor = "vim"
@@ -71,6 +71,13 @@ identifier = "blog"
 name = "blog"
 url = "/posts"
 weight = 4
+
+[[menu.footer]]
+identifier = "imprint"
+name = "imprint"
+url = "/imprint"
+weight = 5
+top = false
 
 [taxonomies]
 category = "categories"

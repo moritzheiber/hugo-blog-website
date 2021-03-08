@@ -1,9 +1,9 @@
 +++
+aliases = ["/post/my-thoughts-on-the-fitbit-one"]
 categories = ["fitness", "fitbit", "wearables"]
 date = "2015-06-11T07:55:54+02:00"
 tags = ["fitbit", "wearables"]
 title = "My thoughts on the Fitbit One"
-aliases = ["/post/my-thoughts-on-the-fitbit-one"]
 
 +++
 

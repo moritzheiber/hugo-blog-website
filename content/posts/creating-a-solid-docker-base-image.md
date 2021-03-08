@@ -1,9 +1,9 @@
 +++
+aliases = ["/post/creating-a-solid-docker-base-image"]
 categories = ["docker", "devops", "java"]
 date = "2016-02-23T18:24:05+01:00"
 tags = ["alpine", "docker", "security"]
 title = "Creating a good, secure Docker base image"
-aliases = ["/post/creating-a-solid-docker-base-image"]
 
 +++
 **tl;dr**: Build small, efficient images, use [Alpine Linux](https://www.alpinelinux.org/) as your foundation, build from there, add glibc if necessary, remove static/generated files and documentation, never run more than one process per container and use verified, trustworthy sources.

@@ -1,9 +1,9 @@
 +++
+aliases = ["/post/switching-to-hugo"]
 categories = ["blog", "golang"]
 date = "2015-05-10T20:12:10+02:00"
 tags = ["hugo", "golang"]
 title = "Switching to Hugo"
-aliases = ["/post/switching-to-hugo"]
 
 +++
 

@@ -1,6 +1,7 @@
 +++
-title = "Media"
 date = "2020-12-25T20:47:10+01:00"
+title = "Media"
+
 +++
 
 This is a collection of interesting articles, interviews and videos connected to my work and some of my projects.
