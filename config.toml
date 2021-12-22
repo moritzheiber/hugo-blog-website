@@ -1,21 +1,21 @@
 baseurl = "https://heiber.im"
-languageCode = "en-us"
-title = "Moritz Heiber"
-metaDataFormat = "toml"
 canonifyurls = true
-paginate = 10
-editor = "vim"
-theme = "cactus"
-enableGitInfo = true
 copyright = "Licensed under CC-by-4.0"
+editor = "vim"
+enableGitInfo = true
+languageCode = "en-us"
+metaDataFormat = "toml"
+paginate = 10
+theme = "cactus"
+title = "Moritz Heiber"
 
 [author]
 name = "Moritz Heiber"
 
 [markup]
 noClasses = false
-  [markup.highlight]
-  style = "monokai"
+[markup.highlight]
+style = "monokai"
 
 [minify.tdewolff.html]
 keepWhitespace = true
@@ -23,27 +23,27 @@ keepWhitespace = true
 [params]
 colorTheme = "dark"
 css = ["css/custom.css"]
-mainSections = "posts"
 description = "Hi, I'm Moritz. My purpose in life seems to be trying to outsmart computers. I'm really bad at it most of the time. These are the artifacts I've collected along the way."
-showAllPostsOnHomePage = false
-postsOnHomePage = 5
-tagsOverview = true
-rss = true
 gravatar = "hello@heiber.im"
-show_updated = true
+mainSections = "posts"
+postsOnHomePage = 5
+rss = true
+showAllPostsOnHomePage = false
 showProjectsList = true
+show_updated = true
+tagsOverview = true
 
 [[params.social]]
-  name = "mastodon"
-  link = "https://mastodon.social/@moritzheiber"
+link = "https://mastodon.social/@moritzheiber"
+name = "mastodon"
 
 [[params.social]]
-  name = "github"
-  link = "https://github.com/moritzheiber"
+link = "https://github.com/moritzheiber"
+name = "github"
 
 [[params.social]]
-  name = "email"
-  link = "hello+web@heiber.im"
+link = "hello+web@heiber.im"
+name = "email"
 
 [params.comments]
 enabled = false
@@ -75,9 +75,9 @@ weight = 4
 [[menu.footer]]
 identifier = "imprint"
 name = "imprint"
+top = false
 url = "/imprint"
 weight = 5
-top = false
 
 [taxonomies]
 category = "categories"

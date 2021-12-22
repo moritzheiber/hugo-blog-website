@@ -1,19 +1,19 @@
 [[list]]
+desc = "Generate temporary AWS credentials through identity providers using SAML"
 name = "Crowbar"
 url = "https://github.com/moritzheiber/crowbar"
-desc = "Generate temporary AWS credentials through identity providers using SAML"
 
 [[list]]
+desc = "Mitamae roles/tasks to configure my Ubuntu-based laptop"
 name = "Laptop Provisioning"
 url = "https://github.com/moritzheiber/laptop-provisioning"
-desc = "Mitamae roles/tasks to configure my Ubuntu-based laptop"
 
 [[list]]
+desc = "Comprehensive toolkit for provisioning AWS accounts"
 name = "AWS Kickstarter"
 url = "https://github.com/moritzheiber/aws-kickstarter"
-desc = "Comprehensive toolkit for provisioning AWS accounts"
 
 [[list]]
+desc = "A modern desktop environment designed to let you work faster by reducing unnecessary clutter and ceremony"
 name = "Regolith Linux"
 url = "https://www.regolith-linux.org"
-desc = "A modern desktop environment designed to let you work faster by reducing unnecessary clutter and ceremony"
