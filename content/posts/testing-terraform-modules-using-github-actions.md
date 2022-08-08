@@ -93,4 +93,15 @@ Lets break this apart:
 2. We then define a single job in the `jobs` array, called `terratest`
 3. Inside this job, we _define the environment we want this job to run in_ before, eventually, executing our tests, specifically, we tell GitHub Actions to run our instructions on a `ubuntu-20.04` machine
 4. We then continue with the setup of the test environment: Check out the revision of the code this workflow runs against, and execute two pre-defined Actions, setting up Terraform and setting up Golang. Since there are strict requirements by this module for specific versions of either Terraform or Golang we can leave them out until we need to add them at some point (say, if Terraform releases an incompatible version, or Golang changes its API)
-5. We then make sure that Terraform itself is initialized properly
+5. We then make sure that Terraform itself is initialized properly before executing the tests associated with the module. Otherwise, since all the tests are executed asynchronously, we might run into issues while 5-6 different Golang routines are trying to initialize the same codebase.
+6. At least, we start running the tests!
+
+This is well defined, and you could easily replicate the same setup on your laptop, either using containers, or actual virtual machines, and you would be getting the same results as GitHub Actions, likely.
+
+However, there is one last issue: The tests are going to fail, because they are lacking the credentials to actually talk to AWS /o\
+
+## You don't have to talk to the cloud at all
+
+One of the most interesting aspects of discussions among engineers is usually that there's a premise and folks are starting to immediately think of solutions to challenges that arise from said premise. I've rarely ever had discussions in which people simply turned around and challenged the premise as a whole, especially if a probably solution is potentially "right around the corner". Instead, you're losing yourself in layers and layers of compromises and trade-offs, with some even bordering on bikeshedding, most of the time.
+
+So lets challenge the premise this time: my main goal here is not talking to the cloud, any cloud for that matter, but rather to test my infrastructure code. My initial assumption was (and is) that I will have to execute these tests against the actual cloud APIs
