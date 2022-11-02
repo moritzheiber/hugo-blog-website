@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/.well-known/webfinger"
+  to = "https://social.heiber.im/.well-known/webfinger"
+  status = 301
+  force = true
