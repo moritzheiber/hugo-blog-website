@@ -3,3 +3,9 @@
   to = "https://social.heiber.im/.well-known/webfinger"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/.well-known/host-meta"
+  to = "https://social.heiber.im/.well-known/host-meta"
+  status = 301
+  force = true
