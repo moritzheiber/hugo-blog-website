@@ -8,6 +8,9 @@
         {{ range .Site.Menus.footer }}
         <li><a href="{{ .URL }}">{{ .Name }}</a></li>
         {{ end }}
+        {{ range where .Site.Params.Social "name" "mastodon" }}
+        <li><a rel="me" href="{{ .link }}">mastodon verification</a>
+        {{ end }}
       </ul>
     </nav>
   </div>

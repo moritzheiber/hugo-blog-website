@@ -524,7 +524,7 @@ This all wouldn't have gotten written if it weren't for the fantastic work of [A
 
 ## Feedback
 
-I hope you enjoyed this article. Should you have comments, questions or suggestions (or even constructive criticism ) let me know on [Mastodon](https://mastodon.social/@moritzheiber).
+I hope you enjoyed this article. Should you have comments, questions or suggestions (or even constructive criticism ) let me know on [Mastodon]({{< mastodon_link >}}).
 
 ## Updates {#updates}
 
@@ -532,6 +532,6 @@ I hope you enjoyed this article. Should you have comments, questions or suggesti
 
 I received this helpful comment on Twitter yesterday:
 
-{{< tweet 702533088505683968 >}}
+{{< tweet user="KekSfabrik_EU" id="702533088505683968" >}}
 
 I therefore went ahead and adjusted the `Dockerfile`, the references and the explanations accordingly. **Thank you, Jan!**

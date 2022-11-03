@@ -34,7 +34,7 @@ show_updated = true
 tagsOverview = true
 
 [[params.social]]
-link = "https://mastodon.social/@moritzheiber"
+link = "https://social.heiber.im/@moritz"
 name = "mastodon"
 
 [[params.social]]
