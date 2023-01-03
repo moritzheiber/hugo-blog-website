@@ -50,7 +50,7 @@ Unable to locate credentials. You can configure credentials by running "aws conf
 
 Lucky for us, [GitHub Actions has had support for OpenID Connect authentication since about over a year](https://github.blog/changelog/2021-10-27-github-actions-secure-cloud-deployments-with-openid-connect/), which means you can use an established trust boundary (GitHub > GitHub Actions) and extend it towards our AWS account! OpenID Connect (OIDC) is a protocol which lets you basically trust resources across different providers:
 
-<img src="images/circle-of-trust.jpeg" width="80%" />
+![circle-of-trust](images/circle-of-trust.jpeg)
 
 1. The initial calling provider (GitHub) authenticates its own resource by providing a cryptographically signed token ("I trust you because I know you; here is a token which tells others this is true")
 2. The receiving provider verifies the validity of the token through a web API ("Oh hi, I have this signed token, is it valid?")
@@ -92,7 +92,7 @@ $ terraform apply
 
 You should now have a newly created OpenID Connect provider in your [AWS IAM web console](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-central-1#/identity_providers):
 
-<img src="images/oidc-provider.png" width="80%"/>
+![oidc-provider](images/oidc-provider.png)
 
 Now we need to assign permissions to the created roles. To run the `aws ec2 describe-instances` command from earlier in a workflow GitHub Actions needs to assume a role that at least has the `ec2:DescribeInstances` API permissions.
 
